@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<link rel="stylesheet" href="common/css/styles.css">
+<link rel="stylesheet" href="common/css/search.css">
+<script src="common/js/index.js"></script>
+<script type="text/javascript" th:inline="javascript">
+	
+$(function(){
+	$('#reviewdiv').hide();
+	$('#userdiv').hide();
+	$('#advertisementdiv').hide();
+	$('#campaigndiv').hide();
+// 	var userSearch = [[${userSearch}]];
+// 	$("${reviewSearch}"!= null){
+// 		$("#reviewdiv").css({display:'block'});
+// 	}
+// 	$(userSearch != null){
+// 		alert("did it come here?");
+// 		$("#userdiv").css({display:'block'});
+// 	}
+// 	$("${advertisementSearch}"!= null){
+// 		$("#advertisementdiv").css({display:'block'});
+// 	}
+	
+	if([[${review}]] != null){
+		$('#reviewdiv').show();
+	} else if([[${userSearch}]] != null){
+		$('#userdiv').show();
+	} else if([[${advertisementSearch}]] != null){
+		$('#advertisementdiv').show();
+	} else if([[${campaign}]] != null){
+		$('#campaigndiv').show();
+	}
+});
+</script>
+<style>
+#reviewdiv{display:none; }
+#userdiv{display:none;} 
+#advertisementdiv{display:none;}
+.active{background-color:blue; color: white;}
+.cont-area .info{overflow:hidden; align:center;}
+
+/* .cont-area .list-style03 .cont-txt .photo{float: left; width: 20%} */
+/* .cont-area .list-style03 .cont-txt .info{float: left; width: 20%} */
+.taewon{width: 100%}
+</style>
+</head>
+<body>
+	<div id="wrap" class="main">
+		<div th:replace="/include/header.html :: header"></div>
+		<br><br><br><br><br><br><br><br>
+	</div>
+		<p th:text="${nothing}" th:align="center">
+		<div class="testmain">
+			<div class="cont-area info" id="reviewdiv">
+				<h3>리뷰</h3>
+					<ul class="list-style03">
+						<li id="reviewlist" th:each="review:${review}">
+							<div class="cont-txt">
+								<p class="photo">
+									<img th:src="${review.reviewRegistrationvo.reviewImgList[0].img}"></span>
+								</p>
+								
+								
+								<ul class="info">
+									<input type="hidden" th:value="${review.reviewRegistrationvo.reviewId}" id="get">
+									<li><span th:text="${review.reviewRegistrationvo.reviewPlace}"></span>|</li> 
+									<li><span th:text="${review.reviewRegistrationvo.title}"></span></li>
+									<li>
+										<img th:src="${review.reviewRegistrationvo.uservo.profileImg}" style="width:25px;height:25px;"/>
+										 <span th:text="${review.reviewRegistrationvo.uservo.nickname}">
+												
+									 	</span>
+										<p><input type="hidden" id="reviewUserId" th:value="${review.reviewRegistrationvo.uservo.userId}"></p>
+									 </li>
+								</ul>
+								<span th:if="${#lists.isEmpty(review.scrapvo)}"> 
+									<span class="button best02" id="scrapButton"> 
+										<input type="hidden" id="followerMe" th:value="${session[username]}">
+									</span>
+								</span> 
+								<span th:if="!${#lists.isEmpty(review.scrapvo)}"> 
+									<span class="button best01" id="scrapButton"> 
+										<input type="hidden" id="followerMe" th:value="${session[username]}">
+									</span>
+								</span>
+							</div>
+						</li>
+		
+					</ul>
+			</div>
+			
+<!-- 			<span th:text="${searchKeyword.types}"></span> -->
+<!-- 					<ul class="page"> -->
+<!-- 						<li th:each="i : ${review}"> -->
+<!-- 					<span th:text="${searchKeyword.searchKeyword}"></span> -->
+<!-- 							<a th:href="@{/search(page=${i.totalPages},types=${searchKeyword.types}, searchKeyword=${searchKeyword.searchKeyword})}" th:text="${i.totalPages}" -->
+<!-- 							th:classappend="${currentPage}==${i.totalPages}?'active' : 'none'"></a> -->
+<!-- 						</li> -->
+<!-- 					</ul> -->
+					
+					
+			<div class="cont-area" id="userdiv">
+				<div class="cont-txtB">
+					인기 유저 <a th:href="@{/rank(followerMe=${session[username]})}"
+								class="more-btn">더보기</a>
+				</div>
+				<ul class="list-style04-user">
+					<li th:each="userSearch:${userSearch}"><a href="#"><img th:src="${userSearch.uservo.profileImg}" style="width:165px;height:165px;"><span class="name"><span th:text="${userSearch.uservo.nickname}"></span><span>팔로워</span><span th:text="${userSearch.uservo.followingCount}"></span>|리뷰수<span th:text="${userSearch.uservo.postCount}"></span></span>
+						<span class="emptyspace">
+							<input type="hidden" id="followingYou" th:value="${userSearch.uservo.nickname}">
+								<input type="hidden" id="followerMe" th:value="${session[username]}">
+								<span th:if="${#lists.isEmpty(userSearch.followvo)}">
+									<span class="followbtn btn02">팔로우</span>
+								</span>
+								<span th:if="!${#lists.isEmpty(userSearch.followvo)}">
+									<span class="followbtn btn01">팔로잉</span>
+								</span>
+							</span>
+					
+					</a></li>
+				</ul>
+				
+			</div>
+			
+			<div id="campaigndiv">
+				<div class="cont-txtB">
+					캠페인 <a th:href="@{/getCampaignList}"
+								class="more-btn">더보기</a>
+				</div>
+				<ul class="list-style03">
+					<li th:each="campaign:${campaign}">
+						<span>
+							<a th:href="@{/getAdvertisementMyPage(advertisementName=${campaign[1]})}"><img th:src="${campaign[0]}" class="campaignWriterImg">&nbsp;&nbsp;&nbsp;<span th:text="${campaign[1]}" class="campaignWriterName"></span></a>
+							<span th:text="${#dates.format(campaign[2], 'yyyy-MM-dd')}" class="campaignDate"></span><span class="campaignDate">~</span>
+						</span>
+						<a th:href="@{/getCampaign(campaignId=${campaign[5]})}"><img th:src="${campaign[3]}" class="campaignimg"></a>
+						<span th:text="${campaign[4]}" class="campaignTitle"></span>
+					</li>
+				</ul>
+				<hr>
+			</div>
+			
+			<div class="cont-area" id="advertisementdiv">
+				<div class="cont-txtB">
+					인기 맛집 <a th:href="@{/rank(followerMe=${session[username]})}"
+							class="more-btn">더보기</a>
+				</div>
+				<ul class="list-style04-restaurant">
+					<li th:each="advvo:${advertisementSearch}"><a href="#"><img th:src="${advvo.advertisementvo.profileImg}"><span th:text="${advvo.advertisementvo.advertisementname}" class="name"></span>리뷰수<span th:text="${advvo.advertisementvo.putedCount}"></span>
+					
+					</a>
+					<span class="emptyspace2"> 
+						<input type="hidden" id="followerMe" th:value="${session[username]}"> 
+						<input type="hidden" id="followingYou" th:value="${advvo.advertisementvo.advertisementname}"> 
+						<span th:if="${#lists.isEmpty(advvo.putvo)}"> 
+							<span class="followbtn btn02" style="curser: pointer;">담아두기</span>
+						</span> 
+						<span th:if="!${#lists.isEmpty(advvo.putvo)}"> 
+							<span class="followbtn btn01" style="curser: pointer;">담기완료</span>
+						</span>
+					</span>
+					</li>
+				</ul>
+				
+			</div>
+		</div>
+	
+		
+
+
+
+<!-- 	<div id="wrap" class="main"> -->
+<!-- 		<div th:replace="/include/header.html :: header"></div> -->
+<!-- 		<table th:align="center" border="1"> -->
+<!-- 			<thead> -->
+<!-- 				<tr> -->
+<!-- 					<th>id</th> -->
+<!-- 					<th>country</th> -->
+<!-- 					<th>capital</th> -->
+<!-- 				</tr> -->
+<!-- 			</thead> -->
+<!-- 			<tbody> -->
+<!-- 				<tr th:each="review : ${data}"> -->
+<!-- 					<td th:text="${review.reviewId}"></td> -->
+<!-- 					<td th:text="${review.title}"></td> -->
+<!-- 					<td th:text="${review.advantages}"></td> -->
+<!-- 				</tr> -->
+<!-- 			</tbody> -->
+<!-- 		</table> -->
+<!-- 		<hr> -->
+
+<!-- 		<ul> -->
+<!-- 			<li th:each="i : ${#numbers.sequence(0,data.totalPages-1)}"> -->
+<!-- 				<a th:href="@{/testsearch(page=${i})}" th:text="${i}" -->
+<!-- 				th:classappend="${currentPage}==${i}?'active' : 'none'"></a> -->
+<!-- 			</li> -->
+<!-- 		</ul> -->
+<!-- 		<ul> -->
+<!-- 			<li th:each="i : ${#numbers.sequence(0,result.totalPages-1)}"> -->
+<!-- 				<a th:href="@{/search(page=${i})}" th:text="${i}" -->
+<!-- 				th:classappend="${currentPage}==${i}?'active' : 'none'"></a> -->
+<!-- 			</li> -->
+<!-- 		</ul> -->
+	
+
+
+<!-- 	</div> -->
+</body>
+</html>

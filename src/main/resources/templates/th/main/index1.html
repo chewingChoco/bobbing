@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>밥빙에 오신걸 환영합니다.</title>
+
+<script   src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script th:inline="javascript" src="common/js/index.js"></script>
+<link rel="stylesheet" href="/common/css/styles.css" th:href="@{/common/css/styles.css}" type="text/css">
+
+<link rel="stylesheet" href="/common/css/jquery.bxslider.css" th:href="@{/common/css/jquery.bxslider2.css}" type="text/css">
+<script src="common/js/jquery.bxslider.js"></script>
+<script src="common/js/jquery.slides.js"></script>
+<script type="text/javascript" src="common/js/jquery.slideto.min.js"></script>
+<link href="common/css/wlogin2.css" rel="stylesheet">
+
+<style>
+*:focus {
+   outline: none;
+}
+</style>
+<script type="text/javascript">
+   jQuery(function($) {
+      //탑버튼
+      $("#top-btn").click(function() {
+
+         $("#wrap").slideto({
+            highlight : false
+         });
+
+      });
+
+   });
+
+   $(function() {
+      //배너 슬라이드 부분
+      $('#slides').slidesjs({
+         width : 1134,
+         height : 470,
+         play : {
+            active : true,
+            auto : true,
+            interval : 3000,
+            swap : true
+         }
+      });
+
+   });
+</script>
+</head>
+<body>
+
+
+
+
+
+
+   <div id="wrap" class="main">
+      <div th:replace="/include/header.html :: header"></div>
+
+      <div class="contact">
+         <div class="cont-area content" data-role="content">
+            <div class="cont-txtB" style="margin-top: 10%;">캠페인</div>
+            <div id="slides">
+
+               <img src="images/1stCampaign.png" alt=""> 
+               <img src="images/2ndCampaign.png" alt=""> 
+               <img src="images/3rdCampaign.png" alt="">
+
+            </div>
+
+         </div>
+
+         <div class="cont-area">
+            <div class="cont-txtB">
+               NEW 리뷰 <a href="#" class="more-btn">더보기</a>
+            </div>
+            <ul class="list-style03">
+               <!--             <option th:each="i : ${#numbers.sequence(1, 3/1)}"> -->
+
+               <li th:each="newestreview:${newestreview}">
+                  <div class="cont-txt">
+                     <p class="photo">
+                           <img th:src='${newestreview.reviewRegistrationvo.reviewImgList[0].img}'></img>
+                     </p>
+                     
+                     <ul class="info">
+                        <li><span
+                           th:text="${newestreview.reviewRegistrationvo.reviewPlace}"></span>
+                           |</li>
+                        <input type="hidden"
+                           th:value="${newestreview.reviewRegistrationvo.reviewId}"
+                           id="get">
+                        <li><span
+                           th:text="${newestreview.reviewRegistrationvo.title}"></span></li>
+                        <li><span
+                           th:each="check:${newestreview.reviewRegistrationvo.uservo}">
+                              <img th:src="${check.profileImg}" style="width:25px;height:25px;"/> <input type="hidden"
+                              id="reviewUserId" th:value="${check.userId}"> <span
+                              th:text="${check.nickname}"></span>
+                        </span></li>
+                        <!--                         </p><li th:text="${newestreview[0].reviewRegistrationvo.reviewPlace}"></li> -->
+                     </ul>
+                     <span th:if="${#lists.isEmpty(newestreview.scrapvo)}"> <span
+                        class="button best02" id="scrapButton"> <input
+                           type="hidden" id="followerMe" th:value="${session[username]}">
+                     </span>
+                     </span> <span th:if="!${#lists.isEmpty(newestreview.scrapvo)}"> <span
+                        class="button best01" id="scrapButton"> <input
+                           type="hidden" id="followerMe" th:value="${session[username]}">
+                     </span>
+                     </span>
+                  </div>
+               </li>
+               <!--                </option> -->
+
+            </ul>
+         </div>
+
+
+         <div class="cont-area">
+            <div class="cont-txtB">
+               BEST 리뷰 <a href="#" class="more-btn">더보기</a>
+            </div>
+            <ul class="list-style02 tab">
+               <li class="buttons on"><span id="all">전체</span></li>
+               <li class="buttons"><span id="kor">한식</span></li>
+               <li class="buttons"><span id="wes">양식</span></li>
+               <li class="buttons"><span id="jpn">일식</span></li>
+               <li class="buttons"><span id="chn">중식</span></li>
+               <li class="buttons"><span id="snk">분식</span></li>
+               <li class="buttons"><span id="fst">패스트푸드</span></li>
+               <li class="buttons"><span id="caf">카페</span></li>
+            </ul>
+         </div>
+         <input type="hidden" th:value="${session[username]}" id="followerMe">
+         <div class="cont-area info" id="list1">
+            <ul class="list-style03">
+
+               <li th:each="everything:${everything}" class="temp">
+                  <div class="cont-txt" id="wee">
+                     <p class="photos">
+                       
+                           <img th:src="${everything.reviewRegistrationvo.reviewImgList[0].img}" id="img1" />
+                       
+
+                     </p>
+                     <ul class="info">
+                        <li><span
+                           th:text="${everything.reviewRegistrationvo.reviewPlace}"
+                           id="reviewPlace"></span>|</li>
+                        <input type="hidden"
+                           th:value="${everything.reviewRegistrationvo.reviewId}" id="get">
+                        <li><span
+                           th:text="${everything.reviewRegistrationvo.title}"
+                           id="reviewTitle"></span></li>
+                        <li><span
+                           th:each="check:${everything.reviewRegistrationvo.uservo}">
+                              <img th:src="${check.profileImg}" id="img2" style="width:25px;height:25px;"/> <input
+                              type="hidden" id="reviewUserId" th:value="${check.userId}">
+                              <span th:text="${check.nickname}" id="userNickname"></span>
+                        </span></li>
+                     </ul>
+                     <span th:if="${#lists.isEmpty(everything.scrapvo)}"> <span
+                        id="scrapButton" class="button best02"></span> <input
+                        type="hidden" id="followMe" th:value="${session[username]}">
+                     </span> <span th:if="!${#lists.isEmpty(everything.scrapvo)}"> <span
+                        id="scrapButton" class="button best01"></span> <input
+                        type="hidden" id="followMe" th:value="${session[username]}">
+
+
+                     </span>
+                  </div>
+               </li>
+            </ul>
+         </div>
+
+         <div class="bannerWrap">
+            <div class="cont-area">
+               <div class="cont-txtB">
+
+
+                  인기 유저 <a th:href="@{/rank(followerMe=${session[username]})}"
+                     class="more-btn">더보기</a>
+               </div>
+               <ul class="list-style04-user slider" id="banner"
+                  style="margin-top: -25px;">
+
+
+                  <li th:each="uservo:${uservo}"><a
+                     th:href="@{/getUserMyPage(nickname=${uservo.uservo.nickname}, followerMe=${session[username]})}">
+                        <img th:src="${uservo.uservo.profileImg}" style="width:155px; height:155px; border-style: none;"> <span
+                        class="name"> <input type="hidden" id="followingYou"
+                           th:value="${uservo.uservo.nickname}"> <span
+                           th:text="${uservo.uservo.nickname}"></span><br> <span>팔로워&nbsp;
+                        </span><span th:text="${uservo.uservo.followingCount}"> </span> |
+                        &nbsp;&nbsp;리뷰수 <span th:text="${uservo.uservo.postCount}"> </span>
+
+                     </span>
+                  </a> <span class="emptyspace"> <input type="hidden"
+                        id="followingYou" th:value="${uservo.uservo.nickname}">
+
+                        <input type="hidden" id="followerMe"
+                        th:value="${session[username]}"> <span
+                        th:if="${#lists.isEmpty(uservo.followvo)}"> <span
+
+                           class="followbtn btn02" style="curser: pointer;">팔로우</span>
+                     </span> <span th:if="!${#lists.isEmpty(uservo.followvo)}"> <span
+                           class="followbtn btn01" style="curser: pointer;">팔로잉</span>
+                     </span>
+
+                  </span></li>
+               </ul>
+
+            </div>
+         </div>
+
+
+         <div class="cont-area">
+            <div class="cont-txtB">
+
+
+               인기 맛집 <a th:href="@{/rank(followerMe=${session[username]})}"
+                  class="more-btn">더보기</a>
+            </div>
+            <ul class="list-style04-restaurant slider2"
+               style="margin-top: -25px;">
+
+               <li th:each="advvo:${advvo}"><img
+                  th:src="${advvo.advertisementvo.profileImg}" style="width:155px; height:155px;"> <span
+                  th:text="${advvo.advertisementvo.advertisementname}" class="name"></span><br><span id="r1">리뷰수</span>
+                   <span class="emptyspace2"> <input type="hidden"
+                     id="followerMe" th:value="${session[username]}"> <input
+                     type="hidden" id="followingYou"
+                     th:value="${advvo.advertisementvo.advertisementname}"> <span
+                     th:text="${advvo.advertisementvo.putedCount}" id="put2"></span> <span
+                     th:if="${#lists.isEmpty(advvo.putvo)}"> <span
+                        class="followbtn btn02" style="curser: pointer;">담아두기</span>
+                  </span> <span ><span th:if="!${#lists.isEmpty(advvo.putvo)}"> <span
+                        class="followbtn btn01" style="curser: pointer;"id="put1">담기완료</span></span>
+
+
+                  </span>
+               </span></li>
+            </ul>
+            <div class="arr-area">
+               <a href="#" class="arr-btn-left on"></a> <a href="#"
+                  class="arr-btn-right"></a>
+            </div>
+         </div>
+      </div>
+      <div class="footer-area">
+         <div class="footer">
+
+            <button class="top-btn" id="top-btn"></button>
+         </div>
+      </div>
+   </div>
+   <script type="text/javascript">
+      $(".dropdown dt a").click(function() {
+         $(".dropdown dd ul").toggle();
+      });
+
+      $(".dropdown dd ul li a").click(function() {
+         var text = $(this).html();
+         $(".dropdown dt a span").html(text);
+         $(".dropdown dd ul").hide();
+      });
+      $(document).ready(function() {
+         $('.slider').bxSlider({
+            auto : true,
+            pager : false,
+            minSlides : 8,
+            maxSlides : 8,
+            moveSlides : 1,
+            slideWidth : 336,
+            slideMargin : 40,
+            autoHover : true,
+            //             prevSelector : '#slider-prev',
+            //             nextSelector : '#slider-next',
+            speed : 500,
+            controls : true,
+            pause : 1100,
+            touchEnabled : false
+            
+
+         });
+      });
+
+      $(document).ready(function() {
+         $('.slider2').bxSlider({
+            auto : true,
+            pager : false,
+            minSlides : 8,
+            maxSlides : 8,
+            moveSlides : 1,
+            slideWidth : 336,
+            slideMargin : 40,
+            autoHover : true,
+            //             prevSelector : '#slider-prev',
+            //             nextSelector : '#slider-next',
+            speed : 500,
+            controls : true,
+            pause : 1100,
+            touchEnabled : false
+
+         });
+      });
+      
+      
+      $(document).on('click','.bx-next, .bx-prev',function() {
+          slider.stopAuto();
+          slider.startAuto();
+      });
+   </script>
+
+</body>
+
+</html>

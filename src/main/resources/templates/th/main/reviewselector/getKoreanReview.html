@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+<link rel="stylesheet" href="common/css/styles.css">
+
+</head>
+<body>
+<div class="cont-area" id="list2">
+	<ul class="list-style03">
+		<li  th:each="businessone:${businessone}">
+			<div  class="cont-txt">
+				<p class="photo">
+					<img th:src="${businessone[4]}" />
+				</p>
+				<a href="#" class="best01">베스트</a>
+				<ul class="info">
+					<li><span th:text="${businessone[1]}"></span>| 강남불백</li>
+					<li><span th:text="${businessone[2]}"></span></li>
+					<li><img src="images/Bobbing-main-Circle-member.gif" /> 고유지니</li>
+				</ul>
+			</div>
+		</li>
+	</ul>
+</div>	
+</body>
+</html>

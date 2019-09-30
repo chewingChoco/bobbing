@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>댓글 테스트</title>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<!-- <script src="//code.jquery.com/jquery-1.11.3.min.js"></script> -->
+<!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
+<!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
+<!-- <script -->
+<!-- 	src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script> -->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+<body th:align="center">
+	<h1>댓글 테스트화면</h1>
+	<form th:action="@{updateReviewView}" method="post">
+			<input id="reviewId" name="reviewId" type="hidden"
+			th:value="${reviewView.reviewId}"> <input id="userId"
+			name="userId" type="hidden" th:value="${session['uservo'].userId}">
+		<!-- <table th:align="center" border="1" th:cellpadding="0"
+			th:cellspacing="0"> -->
+		<!-- <tr>
+				<td bgcolor="oange" th:text="제목" width="80"></td>
+				<td th:value="${joinReviewList.reviewRegistration.title}"></td>
+				<td><input name="title" type="text"
+					th:value="${reviewView.title}"></td>
+			</tr>
+			<tr>
+				<td bgcolor="orange" th:text="작성자"></td>
+				<td th:text="${joinReviewList.reviewRegistration.uservo.nickname}"></td>
+				<td th:text="${reviewView.writer}"></td>
+			</tr>
+			<tr>
+				<td bgcolor="orange" th:text="장점"></td>
+				<td><textarea name="content" th:text="${joinReviewList.advantages}" rows="10" cols="40"></textarea></td>
+				<td><textarea name="advantages"
+						th:text="${reviewView.advantages}" rows="10" cols="40"></textarea></td>
+			</tr>
+			<tr>
+				<td bgcolor="orange" th:text="단점"></td>
+				<td><textarea name="disadvantages"
+						th:text="${reviewView.disadvantages}" rows="10" cols="40"></textarea></td>
+			</tr>
+			<tr>
+				<td bgcolor="orange" th:text="등록일"></td>
+				<td th:text="${reviewView.writeDate}"></td>
+				<td th:text="${#dates.format(reviewView.writeDate,'yyyy-MM-dd')}"></td>
+			</tr>
+			<tr>
+				<td colspan="2" align="center"><input type="submit"
+					value="리뷰 수정"></td>
+			</tr> -->
+		<!-- 		</table> -->
+
+		<div>
+			<div>
+				<ul>
+					<!-- <li th:value="${commentList.contents}"> -->
+				</ul>
+				<!-- 				<input type="text" name="nickName" id="newReplyWriter"> -->
+			</div>
+			<div>
+				REPLY TEXT <input type="text" name="contents" id="newReplyText">
+			</div>
+			<button id="replyAddBtn">ADD REPLY</button>
+		</div>
+	</form>
+	
+	<script>
+// 	var commentList = "[[${commentList.reviewRegistrationvo.reviewId}]]"; 
+// 	console.log(commentList);
+	//댓글 목록 
+	function commentList(){
+// 	   console.log(commentList);
+	    $.ajax({
+	        url : '/commentList',
+	        type : 'post',
+// 	        data : {commentList:commentList},
+	        data : {},
+	        success : function(commentList){
+	            var a =''; 
+	            
+	            $.each(data, function(key, value){ 
+	                a += '<div class="commentArea" style="border-bottom:1px solid darkgray; margin-bottom: 15px;">';
+	                a += '<div class="commentInfo'+value.commentId+'">'+'댓글번호 : '+value.commentId+' / 작성자 : '+value.uservo.nickName;
+	                a += '<a onclick="commentUpdate('+value.commentId+',\''+value.cmentContents+'\');"> 수정 </a>';
+	                a += '<a onclick="commentDelete('+value.commentId+');"> 삭제 </a> </div>';
+	                a += '<div class="commentContent'+value.commentId+'"> <p> 내용 : '+value.cmentContents +'</p>';
+	                a += '</div></div>';
+	            });
+
+	            $(".commentList").html(a);
+	        }
+	    });
+	}
+	
+	
+		$(function() {
+			$("#replyAddBtn").on("click", function() {
+
+				var contents = $("#newReplyText").val();
+				var reviewId = $("#reviewId").val();
+				var userId = $("#userId").val();
+				alert(reviewId);
+				alert(userId);
+
+				$.ajax({
+					type : 'post',
+					url : '/addComment',
+					data : {
+						contents : contents,
+						reviewId : reviewId,
+						userId : userId
+					},
+					success : function(result) {
+						if (result) {
+							alert("등록 되었습니다");
+						} else {
+							alert("오류가 발생했습니다.");
+						}
+					}
+				});
+
+			});
+		});
+	</script>
+</body>
+
+
+</html>

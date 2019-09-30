@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>랭킹 페이지</title>
+<style>
+*:focus {
+	outline: none;
+}
+</style>
+<link rel="stylesheet" href="/common/css/stylesMain_sub.css"
+	th:href="@{/common/css/stylesMain_sub.css}" type="text/css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript" src="common/js/jquery.slideto.min.js"></script>
+
+<script th:inline="javascript">
+	jQuery(function($) {
+		//탑버튼
+		$("#top-btn").click(function() {
+
+			$("#wrap").slideto({
+				highlight : false
+			});
+
+		});
+
+	});
+	$(function() {
+		$('.emptyspace').on('click', function() {
+			var followerMe = $('#followerMe').val();
+			var followingYou = $(this).children("#followingYou").val();
+			var closestATTR = $(this).find('.followbtn');
+			var followingCount = parseInt($('#followingCount').val(), 10);
+
+			$.ajax({
+				url : "ajaxfollow",
+				dataType : "JSON",
+				type : "POST",
+				data : {
+					followerMe : followerMe,
+					followingYou : followingYou
+				},
+
+				success : function(result) {
+					if (result == 1) {
+						var near = $(closestATTR).closest('.followbtn');
+						$(near).removeClass('btn02');
+						$(near).addClass('btn01');
+						$(near).empty();
+						$(near).text('팔로잉');
+
+						// 					var num = 1;
+						// 					var value = ($(near).parent().parent().parent().siblings().children().children().closest('#followingCount').val());
+						// 					alert(($(near).parent().parent().parent().siblings().children().children().closest('#followingCount')).val());
+						// 					alert(value);
+						// 					alert(value + num);
+						// 					$(near).parent().parent().parent().siblings().children().closest('#appenduse').html("<span value="+value+" id="+"followingCount"+">"+value+"</span>");
+					} else if (result == 2) {
+						var near = $(closestATTR).closest('.followbtn');
+						$(near).removeClass('btn01');
+						$(near).addClass('btn02');
+						$(near).empty();
+						$(near).text('팔로우');
+						// 					var number = 1;
+						// 					var value = Number($(near).parent().parent().parent().siblings().children().children().closest('#followingCount').val());
+						// 					alert(value);
+						// 					$(near).parent().parent().parent().siblings().children().closest('#appenduse').html("<span value="+value+" id="+"followingCount"+">"+value+"</span>");
+					} else if (result == 0) {
+						alert("자기자신을 팔로우 할 수 없습니다");
+					} else if (result == -1) {
+						alert("로그인을 해주세요");
+					}
+
+				}
+			});
+
+		});
+		$('.emptyspace2').on('click', function() {
+			var followerMe = $('#followerMe').val();
+			var followingYou = $(this).children("#followingYou").val();
+			var closestATTR = $(this).find('.followbtn');
+
+			$.ajax({
+				url : "ajaxput",
+				dataType : "JSON",
+				type : "POST",
+				data : {
+					followerMe : followerMe,
+					followingYou : followingYou
+				},
+
+				success : function(result) {
+					if (result == 1) {
+						var near = $(closestATTR).closest('.followbtn');
+						$(near).removeClass('btn02');
+						$(near).addClass('btn01');
+						$(near).empty();
+						$(near).text('담기완료');
+
+						// 					var value = ($(near).parent().parent().parent().siblings().children().children().closest('#followingCount')).val();
+						// 					alert(value);
+						// 					alert(value + num);
+						// 					$(near).parent().parent().parent().siblings().children().closest('#appenduse').html("<span value="+value+" id="+"followingCount"+">"+value+"</span>");
+					} else if (result == 2) {
+						var near = $(closestATTR).closest('.followbtn');
+						$(near).removeClass('btn01');
+						$(near).addClass('btn02');
+						$(near).empty();
+						$(near).text('담아두기');
+						// 					var number = 1;
+						// 					var value = Number($(near).parent().parent().parent().siblings().children().children().closest('#followingCount').val());
+						// 					alert(value);
+						// 					$(near).parent().parent().parent().siblings().children().closest('#appenduse').html("<span value="+value+" id="+"followingCount"+">"+value+"</span>");
+					} else if (result == 0) {
+						alert("자기자신을 팔로우 할 수 없습니다");
+					} else if (result == -1) {
+						alert("로그인을 해주세요");
+					}
+
+				}
+			});
+
+		})
+	})
+</script>
+</head>
+<body>
+	<div id="wrap" class="sub">
+		<div class="header">
+			<div class="top">
+				<div class="logo">
+					<a href="/"><img src="images/Bobbing-logo-sub.png"
+						alt="밥빙 logo" /></a>
+				</div>
+				<div class="heaer-gnb">
+					<ul>
+						<li><a th:href="@{/doReviewList}">리뷰</a></li>
+						<li><a th:href="@{/rank(followerMe=${session[username]})}"
+							>랭킹</a></li>
+						<li><a th:href="@{/getCampaignList}">캠페인</a></li>
+					</ul>
+				</div>
+				<div class="heaer-search">
+					<form action="search" enctype="multipart/form-data">
+						<div class="fl MainSearch">
+							<select th:name="Search-select">
+								<option th:value="review" selected="selected">리뷰</option>
+								<option th:value="user">유저</option>
+								<option th:value="campaign">캠페인</option>
+								<option th:value="advertisement">맛집</option>
+							</select> <label class="hidden" for="">검색어입력</label> <input
+								name="searchKeyword" class="input_type2" id=""
+								style="width: 320px;" type="text" maxlength="100"
+								placeholder="검색어를 입력하세요."> <a href="#"><input
+								type="image" value="submit" src="images/icon-search.png"
+								class="fl"></a>
+						</div>
+					</form>
+
+				</div>
+
+			</div>
+
+			<th:block
+				th:if="${session['uservo']} == null and ${session['advertisementvo'] == null}">
+				<div class="login-btnR">
+					<a href="/login" class="login">로그인</a> ㅣ <a href="/joinForm"
+						class="join">회원가입</a>
+				</div>
+			</th:block>
+
+			<!-- 기업 회원일 때 -->
+			<th:block th:if="${session['advertisementvo'] != null}">
+				<div class="login-btnR">
+					<a href="/getAdvertisementMyPage" class="login">마이 페이지</a> ㅣ <a
+						href="/logout" class="join">로그아웃</a>
+				</div>
+			</th:block>
+
+			<!-- 일반 회원일 때 -->
+			<th:block th:if="${session['uservo'] != null}">
+				<div class="login-btnR">
+					<a
+						th:href="@{/getUserMyPage(nickname=${session[username]}, followerMe=${session[username]})}"
+						class="login">마이 페이지</a> ㅣ <a href="/logout" class="join">로그아웃</a>
+				</div>
+			</th:block>
+		</div>
+
+		<div class="contact ">
+			<div class="cont-area ranking-left" data-role="content">
+				<div class="cont-txtB">인기 유저</div>
+				<ul class="ranking s1" th:each="user : ${user}">
+					<li><div class="rapbox">
+							<a
+								th:href="@{/getUserMyPage(nickname=${user.uservo.nickname}, followerMe=${followerMe})}"><img
+								th:src="${user.uservo.profileImg}" style="width:100px;height:100px;"></a><span class="num">
+							</span><span th:text="${user.uservo.nickname}" class="name"></span> <span>팔로워
+									<span th:text="${user.uservo.followingCount}"
+									th:value="${user.uservo.followingCount}" id="fllow1"></span>
+							</span><span id="wow">|</span><span id="postCount1">리뷰수 </span><span
+								id="postCount2" th:text="${user.uservo.postCount}"></span> <span
+								class="emptyspace"> 
+															<input type="hidden" th:value="${session[username]}" id="followerMe">
+								
+								<input type="hidden"
+									th:value="${user.uservo.nickname}" id="followingYou"> <input
+									type="hidden" th:value="${user.uservo.followingCount}"
+									id="followingCount"> <span
+									th:if="${#lists.isEmpty(user.followvo)}"> <span
+										class="followbtn btn02" id="btn02">팔로우</span>
+								</span> <span th:if="!${#lists.isEmpty(user.followvo)}"> <span
+										class="followbtn btn01" id="btn01">팔로잉</span>
+								</span>
+							</span> <!-- <a href="#"><span
+								class="area btn01">팔로잉</span></a> -->
+						</div></li>
+				</ul>
+
+			</div>
+			<div class="cont-area  ranking-right">
+				<div class="cont-txtB">인기 맛집</div>
+				<ul class="ranking s2" th:each="advertisement : ${adv}">
+					<li><div class="rapbox">
+							<img th:src="${advertisement.advertisementvo.profileImg}" style="width:100px;height:100px;"><span
+								class="num"></span><span
+								th:text="${advertisement.advertisementvo.advertisementname}" class="name"></span><span
+								id="point1">평점 <span
+								th:text="${advertisement.advertisementvo.evaluation_avg}" id="point2"></span>
+							</span><span id="wow2">|</span><span id="putCount1">담아두기 </span><span
+								th:text="${advertisement.advertisementvo.putedCount}"
+								th:value="${advertisement.advertisementvo.putedCount}" id="putedCount2"></span>
+
+							<span class="emptyspace2"> 
+														<input type="hidden" th:value="${session[username]}" id="followerMe">
+							
+							<input type="hidden"
+								th:value="${advertisement.advertisementvo.advertisementname}"
+								id="followingYou"> <span
+								th:if="${#lists.isEmpty(advertisement.putvo)}"> <span
+									class="followbtn btn02" id="btn02">담아두기</span>
+							</span> <span th:if="!${#lists.isEmpty(advertisement.putvo)}"> <span
+									class="followbtn btn01" id="btn01">담기완료</span></span></span>
+						</div></li>
+
+				</ul>
+			</div>
+
+
+
+
+		</div>
+		<div class="footer-area">
+			<div class="footer">
+
+				<button class="top-btn" id="top-btn"></button>
+
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		$(".dropdown dt a").click(function() {
+			$(".dropdown dd ul").toggle();
+		});
+
+		$(".dropdown dd ul li a").click(function() {
+			var text = $(this).html();
+			$(".dropdown dt a span").html(text);
+			$(".dropdown dd ul").hide();
+		});
+	</script>
+</body>
+
+</html>

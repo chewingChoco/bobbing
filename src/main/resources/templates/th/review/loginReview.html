@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>리뷰 로그인 테스트</title>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+</head>
+<body>
+	<h1>리뷰 로그인</h1>
+	<form th:action="login" method="post">
+		<table th:align="center" border="1" th:cellpadding="0" th:cellspacing="0">
+		
+			<tr>
+				<td bgcolor="sliver" th:text="NICKNAME"></td>
+				<td><input name="nickname" type="text" size="10"></td>
+			</tr>				
+			<tr>
+				<td bgcolor="sliver" th:text="PASSWORD"></td>
+				<td><input name="password" type="password" size="10"></td>
+			</tr>				
+			<tr>
+				<td colspan="2" align="center">
+					<input type="submit" value="로그인">
+				</td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>

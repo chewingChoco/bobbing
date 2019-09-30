@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.dao.AdMapper">
+
+	<select id="ademailCheck" parameterType="String"
+		resultType="int">
+<![CDATA[
+SELECT COUNT(*) 
+		FROM Advertisementvo 
+		WHERE advertisement_email = #{advertisement_email}
+]]>
+
+	</select>
+
+
+
+	<!-- 회원가입 -->
+	<insert id="joinAd"
+		parameterType="com.example.demo.domain.mypage.Advertisementvo">
+		INSERT INTO Advertisementvo
+		(
+		advertisement_email
+		,password
+		,advertisement_num
+		,advertisementname
+		)
+		VALUES
+		(
+		#{advertisement_email}
+		,#{password}
+		,#{advertisement_num}
+		,#{advertisementname}
+		)
+
+	</insert>
+
+	<select id="adnickCheck" parameterType="String" resultType="int">
+
+		SELECT
+		COUNT(*)
+		FROM Advertisementvo
+		WHERE advertisementname =
+		#{advertisementname}
+
+	</select>
+
+	<!-- 회원 인증키(난수) 생성 -->
+	<update id="GetKey" parameterType="Map">
+		UPDATE Advertisementvo
+		SET
+		ad_key = #{param2}
+		WHERE advertisement_email = #{param1}
+	</update>
+
+	<!-- 회원 인증키(난수) Y로 변경 -->
+	<update id="alter_adKey" parameterType="Map">
+		UPDATE Advertisementvo
+		SET ad_key = 'Y'
+		WHERE advertisement_email = #{param1} and ad_key =
+		#{param2}
+	</update>
+
+	<!--로그인 -->
+	<select id="loginAd"
+		resultType="com.example.demo.domain.mypage.Advertisementvo">
+		SELECT *
+		FROM Advertisementvo
+		WHERE advertisement_email
+		=#{param1} and password= #{param2}
+	</select>
+
+	<!-- 회원 임시 비밀번호 -->
+	<update id="adsearchPassword" parameterType="Map">
+		UPDATE Advertisementvo
+		SET password = #{param2}
+		WHERE advertisement_email = #{param1}
+	</update>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

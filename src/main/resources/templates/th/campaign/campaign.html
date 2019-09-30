@@ -1,0 +1,125 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>캠페인 홈</title>
+
+<style>
+*:focus {
+   outline: none;
+}
+</style>
+<link rel="stylesheet" href="/common/css/styles.css" th:href="@{/common/css/styles.css}" type="text/css">
+<link rel="stylesheet" href="/common/css/styles.css" th:href="@{/common/css/campaignPart.css}" type="text/css">
+
+<!-- Jquery 3.4.1 -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<!-- Alertyfy.js-->
+<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.4/build/alertify.min.js"></script>
+
+<!-- JavaScript -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.4/build/css/alertify.min.css" />
+
+<!-- CSS -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.4/build/css/themes/default.min.css" />
+
+<!-- default theme -->
+<script type="text/javascript" src="common/js/jquery.slideto.min.js"></script>
+
+<script type="text/javascript">
+   jQuery(function($) {
+      //탑버튼
+      $("#top-btn").click(function() {
+
+         $("#wrap").slideto({
+            highlight : false
+         });
+
+      });
+
+   });
+</script>
+</head>
+
+<body>
+   
+   <div id="wrap" class="main">
+      <div th:replace="/include/header.html :: header"></div>
+         <th:block th:if="${session['advertisementvo'] != null}">
+        <div class="camapignBtnDiv">
+            <button class="campaignBtn" name="campaignWriteBtn">캠페인 등록</button>
+        </div>
+      </th:block>
+      
+      <div class="contact">
+         <div class="campaignTop">
+                     정렬
+         <input type="radio" name="sort" id="recent" value="recent" checked> 최신순
+         <input type="radio" name="sort" id="popluar" value="popular"> 인기순 
+         <input type="radio" name="sort" id="end_date" value="end_date"> 마감 임박순
+         </div>
+
+         <div class="campaignlistDiv">
+            <ul class="campaignUl" th:each="campaign:${campaignListWithImg}">
+               	<li class="campaignLi">
+					<span class="campaignProfileImgSpan"><img class="campaignProfileImg" th:src="${campaign[6]}"></span>
+                  	<span class="campaignProfileName" th:text="${campaign[7]}"></span>
+               		<span class="campaignEndDate" th:text="|~ ${#dates.format(campaign[2], 'yyyy-MM-dd')}|"></span><br>
+                     <a th:href="@{getCampaign(campaignId=${campaign[0]})}"> <img class="campaignThumImg" th:src="${campaign[5]}"></a><br>
+               		<a class="campaignThumTitle" th:href="@{getCampaign(campaignId=${campaign[0]})}" th:text="${campaign[1]}"></a>
+            	</li>
+            </ul>
+         </div>
+      </div>
+      
+      <div class="footer-area">
+         <div class="footer">
+            <button class="top-btn" id="top-btn"></button>
+         </div>
+      </div>
+   </div>
+
+   <script th:inline="javascript">
+      $(document).ready(function() {
+         $("input[name=sort]").click(function(e) {
+            var sort = $(this).val();
+            $.ajax({
+               url : "/getCampaignListWithImageByRadio",
+               data : {
+                  sort : sort
+               },
+               dataType : "html",
+               success : function(sortList) {
+                  $(".campaignlistDiv").html(sortList)
+
+                  if (sort == "recent") {
+                     var alertText = "최신순"
+                  } else if (sort == "end_date") {
+                     var alertText = "마감 임박순"
+                  } else if (sort == "popular") {
+                     var alertText = "인기순"
+                  }
+
+                  alertify.set('notifier', 'position', 'bottom-right');
+                  alertify.set('notifier', 'delay', 2);
+                  alertify.success(alertText + ' 정렬이 완료되었습니다.');
+
+               }
+            })
+         });
+      });
+   </script>
+   
+   <script>
+      $(document).ready(function() {
+         $("button[name=campaignWriteBtn]").click(function() {
+            location.href = "/insertCampaign"
+         });
+         $("button[name=reviewWriteBtn]").click(function() {
+            location.href = "insertReview"
+         });
+      });
+   </script>
+   
+</body>
+</html>

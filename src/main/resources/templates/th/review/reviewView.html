@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>리뷰 상세보기</title>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<link rel="stylesheet"	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/common/css/styles.css" th:href="@{/common/css/styles.css}" type="text/css">
+<link rel="stylesheet" href="/common/css/styles.css" th:href="@{/common/css/review.css}" type="text/css">
+<script src="common/js/index.js"></script>
+
+<script>
+	// Get the modal
+	var modal = document.getElementById('myModal');
+
+	// Get the button that opens the modal
+	//    var btn = document.getElementById("myBtn");
+
+	// Get the <span> element that closes the modal
+	var span = document.getElementsByClassName("close")[0];
+	// When the user clicks on the button, open the modal 
+	//    btn.onclick = function() {
+	//        modal.style.display = "block";
+	//    }
+	// When the user clicks on <span> (x), close the modal
+	span.onclick = function() {
+		modal.style.display = "none";
+	}
+	// When the user clicks anywhere outside of the modal, close it
+	window.onclick = function(event) {
+		if (event.target == modal) {
+			modal.style.display = "none";
+		}
+	}
+</script>
+</head>
+
+<body>
+
+	<div id="wrap" class="sub">
+		<div th:replace="/include/header.html :: header"></div>
+		<div class="contact">
+			<div class="cont-area ranking-left" data-role="content">
+				<input id="reviewId" name="reviewId" type="hidden" th:value="${reviewView.reviewId}">
+				<input id="userId" name="userId" type="hidden" th:value="${reviewView.uservo.userId}">	
+				<table style="width: 1100px;">
+				<tr>
+				<td style="width:850px"><p class="reviewViewTitle" th:text="${reviewView.title}"></p></td>
+				<td style="width:100px; text-align: right;"><a class="reviewViewSubOption" th:href="@{/doReviewViewUpdate(reviewId=(${reviewView.reviewId}))}">수정하기</a></td>
+				<td style="width:100px; text-align: right;"><a class="reviewViewSubOption" th:href="@{/deleteReviewView(reviewId=(${reviewView.reviewId}))}">삭제하기</a></td>
+				</tr>
+				<tr>
+				<td colspan="3" class="reviewViewDates" th:text="${#dates.format(reviewView.writeDate,'yyyy-MM-dd-mm:ss')}"></td>
+				</tr>
+				<tr>
+				<td colspan="3">
+				<div>
+				<th:block th:each="reviewImg:${reviewImgList}">
+				<img th:src="${reviewImg.img}" width="1100px" height="550px"><br>
+				<textarea class="reviewViewImgReviewArea" name='imgReview' th:text="${reviewImg.imgReview}"></textarea>
+                  </th:block>
+				</div>
+				</td>
+				</tr>
+				<tr><td class="reviewViewSubTitle" colspan="3" th:text="장점"></td></tr>
+				<tr>
+						
+					<td colspan="3"><textarea class="reviewViewContentsArea" name="advantages"
+								th:text="${reviewView.advantages}"></textarea></td>
+				</tr>
+					<tr>
+						<td class="reviewViewSubTitle" colspan="3" th:text="단점"></td>
+						
+					</tr>
+					<tr><td colspan="3"><textarea class="reviewViewContentsArea" name="disadvantages"
+								th:text="${reviewView.disadvantages}"></textarea></td></tr>
+
+				</table> <!-- Table End-->
+				
+ 				<div>
+   				<th:block th:if="${session['uservo'] != null}">
+ 						<div>
+						<table style="width: 1100px;">
+						<tr>
+						<td style="width:60px;"><img class="reviewViewCommentProfile" th:src="${session['uservo'].profileImg}"></td>
+						<td style="width:940px"><textarea class="reviewViewCommentArea" id="inputContents" placeholder="댓글을 입력해주세요."></textarea></td>
+						<td style="width:100px;" align="center"><button class="reviewViewCommentInsertBtn" id="addComment" onclick="location.href='#'">댓글 등록</button></td>
+						</tr>
+						</table>
+						<input id="saveNickname" hidden="true" th:value="${session['uservo'].nickname}">
+         				<input id="saveUserId" hidden="true" th:value="${session['uservo'].userId}">
+						</div>
+     			</th:block>
+					<div id="commentArea"></div>
+				</div>
+			
+			</div> <!-- Left End -->
+			
+			<div class="cont-area  ranking-right">
+			<img class="revieViewProfileArea" th:src="${reviewView.uservo.profileImg}">
+			<p th:text="${reviewView.uservo.nickname}"></p>
+
+				<!-- The Modal -->
+				<div id="myModal" class="modal">
+					<!-- Modal content -->
+					<div class="modal-content">
+						<span class="close"></span> <input type="text" id="modalContent">
+						<input type="hidden" id="modalCommentId"> <input
+							type="button" id="modalUpdate" value="수정">
+					</div>
+					
+					
+				</div>
+				
+				<span class="emptyspace"> 
+					<input type="hidden" th:value="${session[username]}" id="followerMe">
+					<input type="hidden" th:value="${reviewView.uservo.nickname}" id="followingYou"> 
+					<input type="hidden" th:value="${reviewView.uservo.followingCount}" id="followingCount"> 
+					<span th:if="${#lists.isEmpty(following)}"> 
+						<span class="followbtn btn02" id="btn02">팔로우</span>
+					</span> 
+					<span th:if="!${#lists.isEmpty(following)}"> 
+						<span class="followbtn btn01" id="btn01">팔로잉</span>
+					</span>
+				</span>
+			</div> <!-- Right End -->
+		</div>
+	</div>
+
+<script>
+
+$('#addComment').on('click', function() {
+		var reviewId = $('#reviewId').val();
+		var userId = $('#saveUserId').val();
+		var contents = $('#inputContents').val();
+		var nickname = $('#saveNickname').val();
+		$.ajax({
+			url : '/addComment2',
+			data : {
+				reviewId : reviewId,
+				contents : contents,
+				userId : userId,
+				nickname : nickname
+			},
+			success : function() {
+				showCommentList();
+			},
+			error : function(error) {
+				console.log("에러 : " + error);
+			}
+		});
+	});
+</script>
+
+<script>
+	$(document).ready(function() {
+		showCommentList();
+	});
+	$(document).ready(function() {
+		$(document).on('click', '.deleteComment', function() {
+			var commentId = $(this).next().val();
+			$.ajax({
+				url : '/deleteComment',
+				data : {
+					commentId : commentId
+				},
+				success : function() {
+					showCommentList();
+				},
+				error : function(error) {
+					console.log("에러 : " + error);
+				}
+			});
+		});
+	});
+	$(document).ready(function() {
+		$(document).on('click', '.updateComment', function() {
+			var commentId = $(this).next().next().val();
+			var contents = $(this).next().val();
+			$("#modalContent").val(contents);
+			$("#modalCommentId").val(commentId);
+			var model = modal.style.display = "block";
+		});
+	});
+	$(document).ready(function() {
+		$(document).on('click', '#modalUpdate', function() {
+			var commentId = $("#modalCommentId").val();
+			var contents = $("#modalContent").val();
+			var reviewId = $('#reviewId').val();
+			var userId = $('#saveUserId').val();
+			var nickname = $('#saveNickname').val();
+			$.ajax({
+				url : '/updateComment',
+				data : {
+					commentId : commentId,
+					contents : contents,
+					reviewId : reviewId,
+					userId : userId,
+					nickname : nickname
+				},
+				success : function() {
+					modal.style.display = "none";
+					showCommentList();
+				},
+				error : function(error) {
+					console.log("에러 : " + error);
+				}
+			});
+		});
+	});
+
+	function showCommentList() {
+		var reviewId = $('#reviewId').val();
+		$
+				.ajax({
+					url : "/commentList",
+					type : "GET",
+					data : {
+						reviewId : reviewId
+					},
+					dateType : 'json',
+					success : function(commentList) {
+						var a = "<table class='reviewViewCommentTable'>"						
+							for ( var i in commentList) {
+								a += "<tr>"
+								a += "<td style='width:40px; height: 40px;'><img style='border-radius: 100%; width: 40px;height: 40px;' src='" + commentList[i].uservo.profileImg+ "'></td>";
+								a += "<td style='width: 100px; font-size: 16px; font-weight: bold; font-family: NanumBarunGothic; text-align: center;'>" + commentList[i].uservo.nickname
+								+ "</td>";
+								a += "<td style='width:860px; font-size: 14px; font-family: NanumBarunGothic;'>"  + commentList[i].contents +"</td>";
+								a += "<td><a class='updateComment'>수정</a>";
+								a += "<input type='hidden' value='"+commentList[i].contents+"'><input type='hidden' value='"+commentList[i].commentId+"'></td>";
+								a += "<td><a class='deleteComment'> 삭제</a>";
+								a += "<input type='hidden' value='"+commentList[i].commentId+"'></td>";
+								a += "</tr>";
+							}
+							a += "</table>";
+						$("#commentArea table").remove();
+						$("#commentArea").html(a);
+					},
+					error : function(request, status, error) {
+						alert("code:" + request.status + "\n" + "message:"
+								+ request.responseText + "\n" + "error:"
+								+ error);
+					}
+				});
+	}
+</script>
+</body>
+</html>

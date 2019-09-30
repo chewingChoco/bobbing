@@ -1,0 +1,142 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>캠페인 등록</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="/common/css/styles.css" th:href="@{/common/css/styles.css}" type="text/css">
+<link rel="stylesheet" href="/common/css/styles.css" th:href="@{/common/css/campaignPart.css}" type="text/css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<!-- Alertyfy.js-->
+<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.4/build/alertify.min.js"></script> <!-- JavaScript -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.4/build/css/alertify.min.css"/> <!-- CSS -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.4/build/css/themes/default.min.css"/> <!-- default theme -->
+
+</head>
+<body>
+
+	<div id="wrap" class="main">
+		<div th:replace="/include/header.html :: header"></div>
+		<div class="campaignWriteDiv">    
+		<form th:action="@{insertCampaign}" method="post" enctype="multipart/form-data" onsubmit="return formValidation();">
+			<input type="hidden" name="advertisementId"	th:value="${session['advertisementvo'].advertisementId}">
+			<table class="campaignWriteTable">
+				<tr>
+					<td colspan="3"><input class="campaignWriteTitle" type="text" id="title" name="title" placeholder="제목을 입력 해주세요"></td>
+				</tr>
+				<tr>
+					<td colspan="1"><input class="campaignWriteFile" id="file" multiple="multiple" type="file" name="file"></td>
+					<td colspan="2"><textarea class="campaignWriteIntroduction" name="introduction"th:text="${session['advertisementvo'].introduce}"></textarea></td>
+				</tr>
+				<tr>
+				<td>모집인원</td>
+				<td>시작일</td>
+				<td>종료일</td>
+				</tr>
+				<tr>
+				<td><input class="campaignWriteRecruitment" id="recruitment" name="recruitment" type="number"></td>
+				<td><input class="campaignWriteStartDate" id="startDate" name="startDate" type="date"></td>
+				<td><input class="campaignWriteEndDate" id="endDate" name="endDate" type="date"></td>
+				</tr>
+				<tr><td colspan="3">제공내역</td></tr>
+				<tr><td colspan="3"><input type="text" class="campaignWriteOfferHistory" id="offerHistory" name="offerHistory"></td></tr>
+				<tr><td colspan="3">비고</td></tr>
+				<tr><td colspan="3"><input type="text" class="campaignWriteRemarks" id="remarks" name="remarks"></td></tr>
+				<tr><td colspan="3" style="text-align: right;"><span><input class="campaignWriteInsertBtn" type="submit" value="등록하기"></span>
+				<span><input class="campaignWriteCancelBtn" type="button" value="취소하기" onclick="location.href='getCampaignList'"></span></td></tr>
+			</table>			
+
+		</form>
+		</div>
+	</div>
+	
+	<script>
+	
+	function formValidation(){
+
+        var title = $("#title").val();
+        var recruitment = $("#recruitment").val();
+        var startDate = $("#startDate").val();
+        var endDate = $("#endDate").val();
+        var file = $("#file").val();
+        var offerHistory = $("#offerHistory").val()
+
+        var today = new Date()
+        var yyyy = today.getFullYear();
+        var mm = ("0" + (today.getMonth() + 1)).slice(-2);
+        var dd = today.getDate();
+        var formattedToday = yyyy+'-'+mm+'-'+dd;
+
+        if($.trim(title) == ""){
+            alertify.set('notifier','delay',2);
+            alertify.set('notifier','position', 'bottom-right');
+            alertify.error("제목을 입력해주시기 바랍니다.");
+            $("#title").focus();
+            return false;
+        }
+
+        if(recruitment == '' || null || undefined || 0 || NaN){
+            alertify.set('notifier','delay',2);
+            alertify.set('notifier','position', 'bottom-right');
+            alertify.error("모집인원을 입력해주시기 바랍니다.");
+            $("#recruitment").focus();
+            return false;
+        }
+
+        if(recruitment <= 0 ){
+            alertify.set('notifier','delay',2);
+            alertify.set('notifier','position', 'bottom-right');
+            alertify.error("모집인원은 양수여야 합니다.");
+            $("#recruitment").focus();
+            return false; 
+        }
+        
+        if(file == '' || null || undefined || NaN){
+            alertify.set('notifier','delay',2);
+            alertify.set('notifier','position', 'bottom-right');
+            alertify.error("최소 1장의 이미지는 필수입니다.");
+            return false;
+
+        }
+        if(startDate == ""){
+            alertify.set('notifier','delay',2);
+            alertify.set('notifier','position', 'bottom-right');
+            alertify.error("시작일을 지정해야 합니다.");
+            return false;
+
+        }
+
+        if(endDate == ""){
+            alertify.set('notifier','delay',2);
+            alertify.set('notifier','position', 'bottom-right');
+            alertify.error("마감일을 지정해야 합니다.");
+            return false;
+        }
+
+        if(startDate < formattedToday){
+            alertify.set('notifier','delay',2);
+            alertify.set('notifier','position', 'bottom-right');
+            alertify.error("캠페인 시작일은 최소 금일과 동일해야 합니다.");
+            return false;
+        }
+
+        if(startDate > endDate){
+            alertify.set('notifier','delay',2);
+            alertify.set('notifier','position', 'bottom-right');
+            alertify.error("시작일이 마감일보다 느립니다.");
+            $("#startDate").focus();
+            return false;
+        }
+
+        if($.trim(offerHistory) == ""){
+            alertify.set('notifier','delay',2);
+            alertify.set('notifier','position', 'bottom-right');
+            alertify.error("제공 내역을 입력해주시기 바랍니다.");
+            $("#offerHistory").focus();
+            return false;
+        }
+
+    }
+</script>
+
+</body>
+</html>

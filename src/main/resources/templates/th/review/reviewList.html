@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>리뷰 목록</title>
+<style>
+*:focus {
+	outline: none;
+}
+</style>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="/common/css/styles.css" th:href="@{/common/css/styles.css}" type="text/css">
+<link rel="stylesheet" href="/common/css/styles.css" th:href="@{/common/css/review.css}" type="text/css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script th:inline="javascript" src="common/js/index.js"></script>
+<script type="text/javascript" src="common/js/jquery.slideto.min.js"></script>
+<script type="text/javascript">
+	jQuery(function($) {
+		//탑버튼
+		$("#top-btn").click(function() {
+
+			$("#wrap").slideto({
+				highlight : false
+			});
+
+		});
+
+	});
+</script>
+</head>
+
+<body th:align="center">
+	<div id="wrap" class="main">
+		<div th:replace="/include/header.html :: header"></div>
+		<div class="contact">
+			<th:block th:if="${session['uservo'] != null}">
+				<button class="insertBtn" onclick="location.href='/insertReview'">등록</button>
+			</th:block>
+			<div class="cont-area info">
+				<ul class="list-style03">
+					<li th:each="reviewList : ${reviewList}">
+						<div class="cont-txt">
+
+							<span> <input type="hidden" id="get"
+								th:value="${reviewList.reviewRegistrationvo.reviewId}">
+								<span class="user"> <a
+									th:href="@{/getUserMyPage(nickname=${reviewList.reviewRegistrationvo.uservo.nickname}, followerMe=${session[username]})}">
+										<img
+										th:src="${reviewList.reviewRegistrationvo.uservo.profileImg}"
+										class="reviewUserImg"> <span
+										th:text="${reviewList.reviewRegistrationvo.uservo.nickname}"
+										class="reviewUsername" id="name"></span>
+								</a>
+							</span> <span class="emptyspace"> <input type="hidden"
+									id="followingYou"
+									th:value="${reviewList.reviewRegistrationvo.uservo.nickname}">
+									<input type="hidden" id="followerMe"
+									th:value="${session[username]}"> <span
+									th:if="${#lists.isEmpty(reviewList.followvo)}"> <span
+										class="followbtn btn02" style="curser: pointer;">팔로우</span>
+								</span> <span th:if="!${#lists.isEmpty(reviewList.followvo)}"> <span
+										class="followbtn btn01" style="curser: pointer;">팔로잉</span>
+								</span> <span> <input type="hidden" id="reviewUserId"
+										th:value="${reviewList.reviewRegistrationvo.uservo.userId}">
+
+								</span>
+							</span>
+							</span>
+							<p class="photo">
+								<a
+									th:href="@{/doReviewView(reviewId=${reviewList.reviewRegistrationvo.reviewId})}">
+									<img
+									th:src="${reviewList.reviewRegistrationvo.reviewImgList[0].img}">
+								</a>
+							</p>
+							<span th:if="${#lists.isEmpty(reviewList.scrapvo)}"> <span
+								class="button best02" id="scrapButton"> <input
+									type="hidden" id="followerMe" th:value="${session[username]}">
+							</span>
+
+							</span> <span th:if="!${#lists.isEmpty(reviewList.scrapvo)}"> <span
+								class="button best01" id="scrapButton"> <input
+									type="hidden" id="followerMe" th:value="${session[username]}">
+							</span>
+							</span> <span> <span
+								th:text="${reviewList.reviewRegistrationvo.title}"
+								class="reviewTitle"></span>
+							</span>
+
+						</div>
+					</li>
+	
+				</ul>
+			</div>
+		</div>
+
+		<div class="footer-area">
+			<div class="footer">
+
+				<button class="top-btn" id="top-btn"></button>
+
+
+			</div>
+		</div>
+
+	</div>
+</body>
+</html>

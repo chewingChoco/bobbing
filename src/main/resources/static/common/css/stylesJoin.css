@@ -1,0 +1,310 @@
+body {
+	margin: 0;
+	padding: 0;
+}
+
+#background {
+	left: 0px;
+	top: 0px;
+	position: relative;
+	margin-left: auto;
+	margin-right: auto;
+	width: 1920px;
+	height: 1080px;
+	overflow: hidden;
+	z-index: 0;
+}
+
+#total {
+	left: -195px;
+	top: -109px;
+	position: absolute;
+	width: 634px;
+	height: 798px;
+	z-index: 0;
+}
+
+#Layer4 {
+	left: 0px;
+	top: 0px;
+	position: absolute;
+	width: 1920px;
+	height: 1080px;
+	z-index: 1;
+}
+
+#RoundedRectangle744 {
+	left: 643px;
+	top: 210px;
+	position: absolute;
+	width: 634px;
+	height: 798px;
+	z-index: 2;
+}
+
+#Shape740copy2 {
+	left: 960px;
+	top: 282px;
+	position: absolute;
+	width: 316px;
+	height: 8px;
+	z-index: 3;
+}
+
+#Shape740copy {
+	left: 644px;
+	top: 282px;
+	position: absolute;
+	width: 321px;
+	height: 8px;
+	z-index: 4;
+}
+
+#layer_5 {
+	left: 751px;
+	top: 685px;
+	position: absolute;
+	width: 418px;
+	height: 57px;
+	z-index: 5;
+}
+
+#layer_6 {
+	left: 751px;
+	top: 756px;
+	position: absolute;
+	width: 418px;
+	height: 57px;
+	z-index: 6;
+}
+
+#layer_7 {
+	left: 750px;
+	top: 364px;
+	position: absolute;
+	width: 420px;
+	height: 59px;
+	z-index: 7;
+}
+
+#copy {
+	left: 750px;
+	top: 441px;
+	position: absolute;
+	width: 420px;
+	height: 59px;
+	z-index: 8;
+}
+
+#copy2 {
+	left: 749px;
+	top: 858px;
+	position: absolute;
+	width: 421px;
+	height: 59px;
+	z-index: 9;
+}
+
+#layer_10 {
+	left: 885px;
+	top: 123px;
+	position: absolute;
+	width: 150px;
+	height: 56px;
+	z-index: 10;
+}
+
+#layer_11 {
+	left: 761px;
+	top: 239px;
+	position: absolute;
+	width: 81px;
+	height: 22px;
+	z-index: 11;
+}
+
+#layer_12 {
+	left: 1072px;
+	top: 238px;
+	position: absolute;
+	width: 81px;
+	height: 22px;
+	z-index: 12;
+}
+
+#layer_13 {
+	left: 928px;
+	top: 878px;
+	position: absolute;
+	width: 63px;
+	height: 18px;
+	z-index: 13;
+}
+
+#layer_14 {
+	left: 778px;
+	top: 385px;
+	position: absolute;
+	width: 46px;
+	height: 18px;
+	z-index: 14;
+	font-family: AppleSDGothicNeo;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 50px;
+	transform: scale(1.01, 2);
+	border: 0px;
+	outline: none;
+}
+
+#user_email {
+	top: -5px;
+	position: absolute;
+	width: 355px;
+	height: 23px;
+	font-family: AppleSDGothicNeo;
+	font-size: 12.5px;
+	font-weight: normal;
+	font-style: normal;
+	font-stretch: normal;
+	line-height: 3.43;
+	letter-spacing: normal;
+	text-align: left;
+	border: 0px;
+}
+
+#nickName {
+	top: -18px;
+	width: 357px;
+	height: 51px;
+	font-family: AppleSDGothicNeo;
+	font-size: 19.5px;
+	font-weight: normal;
+	font-style: normal;
+	font-stretch: normal;
+	line-height: 3.43;
+	letter-spacing: normal;
+	text-align: left;
+	position: absolute;
+	border: 0px;
+}
+
+#password {
+	left: 778px;
+	top: 385px;
+	width: 359px;
+	height: 14px;
+	z-index: 14;
+	font-family: AppleSDGothicNeo;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 50px;
+	border: 0px;
+	outline: none;
+	transform: scale(1.01, 2);
+}
+
+#password2 {
+	left: 778px;
+	top: 385px;
+	width: 359px;
+	height: 14px;
+	z-index: 14;
+	font-family: AppleSDGothicNeo;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 50px;
+	border: 0px;
+	outline: none;
+	transform: scale(1.01, 2);
+}
+
+#layer_15 {
+	left: 778px;
+	top: 463px;
+	position: absolute;
+	width: 46px;
+	height: 18px;
+	z-index: 15;
+}
+
+#layer_16 {
+	left: 750px;
+	top: 518px;
+	position: absolute;
+	width: 420px;
+	height: 59px;
+	z-index: 16;
+}
+
+#copy_0 {
+	left: 750px;
+	top: 595px;
+	position: absolute;
+	width: 420px;
+	height: 59px;
+	z-index: 17;
+}
+
+#layer_616 {
+	left: 778px;
+	top: 539px;
+	position: absolute;
+	width: 290px;
+	height: 18px;
+	z-index: 18;
+}
+
+#layer_19 {
+	left: 778px;
+	top: 617px;
+	position: absolute;
+	width: 99px;
+	height: 18px;
+	z-index: 19;
+}
+
+#layer_20 {
+	left: 778px;
+	top: 424px;
+	position: absolute;
+	width: 147px;
+	height: 14px;
+	z-index: 20;
+}
+
+#chktext2 {
+	left: 778px;
+	top: 424px;
+	width: 147px;
+	height: 14px;
+	z-index: 20;
+	color: red;
+}
+
+#layer_616_0 {
+	left: 778px;
+	top: 578px;
+	position: absolute;
+	width: 167px;
+	height: 14px;
+	z-index: 21;
+}
+
+#layer_22 {
+	left: 779px;
+	top: 656px;
+	position: absolute;
+	width: 166px;
+	height: 14px;
+	z-index: 22;
+}
+
+#layer_23 {
+	left: 778px;
+	top: 502px;
+	position: absolute;
+	width: 159px;
+	height: 14px;
+	z-index: 23;
+}

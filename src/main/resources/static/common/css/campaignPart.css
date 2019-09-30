@@ -1,0 +1,501 @@
+/* Campaign.html CSS */
+.camapignBtnDiv {
+	float: right;
+	margin-top: 7%;
+	margin-bottom: -7%;
+}
+
+.campaignBtn {
+	width: 105px;
+	height: 35px;
+	border-radius: 22.7px;
+	border: solid 1px #ff4d80;
+	background-color: #ff4d80;
+	color: white;
+	margin-left: -240%;
+}
+
+.campaignTop {
+	font-family: NanumBarunGothic;
+	font-size: 18px;
+	margin-bottom: 1%;
+	float: left;
+	width: 100%;
+	margin-top: 10%;
+	margin-left: 7.5%;
+}
+
+.campaignListDiv {
+	margin-left: 7%;
+}
+
+.campaignUl {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	float: left;
+}
+
+.campaignLi {
+	margin: 20 10 20 10;
+	padding: 0 0 0 0;
+	border: 0;
+	float: left;
+}
+
+.campaignProfileImgSpan {
+	display: inline-block;
+}
+
+.campaignProfileImg {
+	height: 5%;
+	border-radius: 100%;
+}
+
+.campaignProfileName {
+	font-size: 20px;
+	font-family: NanumBarunGothic;
+	display: inline-block;
+	line-height: 2;
+	width: 40%;
+	text-align: center;
+}
+
+.campaignEndDate {
+	font-family: NanumBarunGothic;
+	color: #ff4d80;
+	line-height: 2;
+	font-size: 20;
+	font-weight: bold;
+	text-align: end;
+	display: inline-block;
+	width: 40%;
+}
+
+.campaignThumImg {
+	width: 450px;
+	height: 450px;
+	border-radius: 10%;
+}
+
+.campaignThumTitle {
+	font-size: 20px;
+	font-family: NanumBarunGothic;
+}
+
+/* CampaignView.html CSS */
+.campaignViewLeft {
+	float: left;
+	width: 65%;
+	margin-left: 10%;
+	margin-top: 7%
+}
+
+.campaignViewTitle {
+	width: 514px;
+	height: 37px;
+	font-family: NanumBarunGothic;
+	font-size: 40px;
+	font-weight: bold;
+	font-style: normal;
+	font-stretch: normal;
+	line-height: 1.6;
+	letter-spacing: normal;
+	text-align: left;
+	color: #000000;
+	margin-bottom: 2%;
+	width: 89%;
+}
+
+.campaignViewOptionTitle {
+	width: 108px;
+	height: 28px;
+	font-family: NanumBarunGothic;
+	font-size: 20px;
+	font-weight: bold;
+	font-style: normal;
+	font-stretch: normal;
+	line-height: 1.27;
+	letter-spacing: normal;
+	text-align: left;
+	color: #000000;
+	margin-top: 1%;
+}
+
+.campaignViewContents {
+	width: 1055;
+	height: 170px;
+	margin-top: 1%;
+	resize: none;
+	font-size: larger;
+	border: 0px solid white;
+	outline: none;
+	font-family: NanumBarunGothic;
+}
+
+.campaignViewSubContents {
+	width: 1040px;
+	height: 30px;
+	font-family: NanumBarunGothic;
+	font-size: 16px;
+	font-weight: normal;
+	font-style: normal;
+	font-stretch: normal;
+	line-height: 1.61;
+	letter-spacing: normal;
+	text-align: left;
+	color: #000000;
+}
+
+.campaignViewRight {
+	margin-top: 1%;
+	float: right;
+	width: 20%;
+	margin-right: 5%;
+}
+
+.campaignViewInnerSquare {
+	margin-top: 49%;
+	width: 350px;
+	height: 300;
+	border: solid 1px #e8e8e8;
+}
+
+.campaignViewButton {
+	width: 350px;
+	height: 47px;
+	border-radius: 23.5px;
+	background-color: #ff4d80;
+	color: white;
+	margin-top: 5%;
+	font-size: medium;
+	border: none;
+}
+
+.campaignViewRecruitment {
+	color: #ff4d80;
+	margin-left: 2%;
+	margin-top: 2%;
+	font-family: 'NanumBarunGothic';
+	font-size: medium;
+}
+
+.campaignViewProfileImg {
+	width: 35%;
+	border-radius: 100%;
+	margin-left: 33%;
+	margin-top: 5%;
+	"
+}
+
+.campaignViewProfileName {
+	font-size: large;
+	font-weight: bold;
+	text-align: center;
+	margin-top: 5%;
+	font-family: 'NanumBarunGothic';
+}
+
+.campaignViewProfileSubTitle {
+	font-family: 'NanumBarunGothic';
+	font-size: medium;
+	margin-left: 9%;
+}
+
+.campaignViewProfileSubContents {
+	color: #ff4d80;
+	margin-left: 2%;
+	margin-top: 2%;
+	font-family: 'NanumBarunGothic';
+	font-size: medium;
+}
+/* CampaignView Modal CSS */
+.modal {
+	display: none; /* Hidden by default */
+	position: fixed; /* Stay in place */
+	z-index: 999; /* Sit on top */
+	left: 0;
+	top: 0;
+	width: 100%; /* Full width */
+	height: 100%; /* Full height */
+	overflow: auto; /* Enable scroll if needed */
+	background-color: rgb(0, 0, 0); /* Fallback color */
+	background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+.modal-content {
+	background-color: #fefefe;
+	margin: 15% auto; /* 15% from the top and centered */
+	padding: 20px;
+	border: 1px solid #888;
+	width: 50%; /* Could be more or less, depending on screen size */
+}
+
+.close {
+	color: #aaa;
+	float: right;
+	font-size: 28px;
+	font-weight: bold;
+}
+
+.close:hover, .close:focus {
+	color: black;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+/* ParticipantsList Table Css */
+.participantTable {
+	width: 900px;
+}
+
+.participantTableTd {
+	width: 100px;
+}
+
+.participantTableProfile {
+	border-radius: 100%;
+	width: 55px;
+    height: 55px;
+}
+
+.participantTableFont {
+	font-size: 20px;
+	font-family: NanumBarunGothic;
+}
+
+.selectParticipantBtn {
+	float: right;
+	width: 100px;
+	height: 45px;
+	border-radius: 30px;
+	border: solid 1px #ff4d80;
+	background-color: #ff4d80;
+	color: white;
+}
+
+.cancelParticipantBtn {
+	float: right;
+	width: 100px;
+	height: 45px;
+	border-radius: 30px;
+	border: solid 1px #ff4d80;
+	background-color: #ffffff;
+	color: #ff4d80;
+}
+/* CampaignWrite CSS */
+.campaignWriteDiv {
+	margin-top: 9%;
+}
+
+.campaignWriteTable{
+	margin-left:auto;
+	margin-right:auto;
+}
+.campaignWriteTitle {
+	width: 1000px;
+	height: 60px;
+	border-radius: 30px;
+	border: solid 1px #b5b5b5;
+	margin-bottom: 4%;
+	font-size: large;
+	font-family: NanumBarunGothic;
+	outline:none;
+}
+
+.campaignWriteFile {
+	width: 320px;
+	height: 250px;
+	border-radius: 10px;
+	border: solid 1px #eeeeee;
+	background-color: #eeeeee;
+	padding: .5em .75em;
+	color: #fff;
+	margin-bottom : 8%;	
+	outline:none;
+}
+
+.campaignWriteIntroduction {
+	width: 660px;
+	height: 250px;
+	border-radius: 10px;
+	border: solid 1px #a7a7a7;
+	margin-left:1%;
+	font-size: large;
+	outline:none;
+	resize:none;
+	margin-bottom : 3%;
+
+}
+
+.campaignWriteRecruitment {
+	width: 320px;
+	height: 50px;
+	border-radius: 30px;
+	border: solid 1px #b5b5b5;
+	margin-top:4%;
+	margin-bottom:7%;
+	text-align: center;
+	outline:none;
+}
+
+.campaignWriteStartDate {
+	width: 330px;
+	height: 50px;
+	border-radius: 30px;
+	border: solid 1px #b5b5b5;
+	margin-top:4%;
+	margin-bottom:7%;
+	margin-left:2%;
+	outline:none;
+}
+
+.campaignWriteEndDate {
+	width: 330px;
+	height: 50px;
+	border-radius: 30px;
+	border: solid 1px #b5b5b5;
+	margin-top:4%;
+	margin-bottom:7%;
+	margin-left:2%;
+	outline:none;
+}
+
+.campaignWriteOfferHistory {
+	width: 1000px;
+	height: 55px;
+	border-radius: 30px;
+	border: solid 1px #b5b5b5;
+	margin-top:2%;
+	margin-bottom:3%;
+	font-size: large;
+	font-family: NanumBarunGothic;
+	outline:none;
+}
+
+.campaignWriteRemarks {
+	width: 1000px;
+	height: 55px;
+	border-radius: 30px;
+	border: solid 1px #b5b5b5;
+	margin-top:2%;
+	margin-bottom:3%;
+	font-size: large;
+	font-family: NanumBarunGothic;
+	outline:none;
+}
+
+.campaignWriteInsertBtn {
+	width: 100px;
+	height: 40px;
+	border-radius: 22.7px;
+	border: solid 1px #ff4d80;
+	background-color: #ff4d80;
+	color: white;
+	font-size: small;
+	outline:none;
+
+}
+
+.campaignWriteCancelBtn {
+	width: 100px;
+	height: 40px;
+	border-radius: 22.7px;
+	border: solid 1px #ff4d80;
+	background-color: #ffffff;
+	color: #000;
+	font-size: small;
+	outline:none;
+}
+
+/* CampaignModify CSS */
+
+.campaignModifyIntroduction {
+	width: 1000px;
+	height: 250px;
+	border-radius: 10px;
+	border: solid 1px #a7a7a7;	
+	margin-bottom: 4%;
+	font-size: large;
+	outline:none;
+	resize:none;	
+}
+
+.campaignModifyRecruitment {
+	width: 300px;
+	height: 50;
+	border-radius: 30px;
+	border: solid 1px #b5b5b5;
+	margin-bottom: 2%;
+}
+
+.campaignModifyStartDate {
+	width: 300px;
+	height: 50;
+	border-radius: 30px;
+	border: solid 1px #b5b5b5;
+	margin-left: 7%;
+	margin-bottom: 1%;
+}
+
+.campaignModifyEndDate {
+	width: 300px;
+	height: 50;
+	border-radius: 30px;
+	border: solid 1px #b5b5b5;
+	margin-left: 13%;
+	margin-bottom: 1%;
+}
+
+.campaignModifyOfferHistory {
+	width: 1025;
+	height: 55;
+	border-radius: 30px;
+	border: solid 1px #b5b5b5;
+	margin-bottom: 2%;
+	font-size: large;
+	font-family: AppleSDGothicNeo;
+}
+
+.campaignModifyRemarks {
+	width: 1025;
+	height: 55;
+	border-radius: 30px;
+	border: solid 1px #b5b5b5;
+	margin-bottom: 2%;
+	font-size: large;
+	font-family: AppleSDGothicNeo;
+}
+
+.campaignModifySubmit {
+	width: 100px;
+	height: 40px;
+	border-radius: 22.7px;
+	border: solid 1px #ff4d80;
+	background-color: #ff4d80;
+	color: white;
+	font-size: small;
+	outline:none;
+}
+
+.campaignModifyCancleBtn {
+	width: 100px;
+	height: 40px;
+	border-radius: 22.7px;
+	border: solid 1px #ff4d80;
+	background-color: #ffffff;
+	color: #000;	
+	font-size: small;
+	outline:none;
+}
+
+#wrap .footer-area .top-btn {
+	background: url(../../images/Bobbing-icon.png) no-repeat 0 bottom;
+	text-indent: -9999px;
+	position: fixed;
+	width: 75px;
+	height: 75px;
+	bottom: 0%;
+	right: 0%;
+	border: none;
+}

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+hi this is temporary index m :)
+<img src="https://www.dropbox.com/s/kox326ah3lfunn6/%EB%A7%8C%EB%82%98%EB%B6%84%EC%8B%9D_%EB%8C%80%EC%B9%98%EC%97%AD1.png?dl=1" width="1000" height="400">
+<!-- <img th:src="${review.img}" width="1000" height="400"> -->
+<div class="123">
+	<ol th:each=" uservo : ${uservo}" >
+		<li><img th:src="${uservo.profile_img}" width="100" height="100"></li>
+		<li th:text="${uservo.nickname}"></li>
+		<li th:text="${uservo.following_count}"></li>
+		<li th:text="${uservo.following_count}"></li>
+		
+	</ol>
+</div>
+
+
+</body>
+</html>

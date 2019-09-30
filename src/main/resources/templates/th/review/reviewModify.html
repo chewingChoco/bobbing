@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>리뷰 상세보기 - 수정</title>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<link rel="stylesheet"
+   href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
+<!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> -->
+<style>
+ /* The Modal (background) */
+.modal {
+   display: none; /* Hidden by default */
+   position: fixed; /* Stay in place */
+   z-index: 1; /* Sit on top */
+   left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+    
+/* Modal Content/Box */
+.modal-content {
+   background-color: #fefefe;
+   margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%; /* Could be more or less, depending on screen size */                          
+}
+/* The Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+.fileDrop {
+   width: 100%;
+   height: 100px;
+   border: 2px dotted #0b58a2;
+   background: silver;
+}
+.uploadedList {
+   width: 100%;
+   height: 200px;
+   border: 2px dotted #0b58a2;
+}
+small {
+   margin-left: 3px;
+   font-weight: bold;
+   color: gray;
+}
+</style>
+</head>
+
+<body th:align="center">
+   <!-- <span th:text="${session['uservo'].nickname}"></span> -->
+   <h1>리뷰 글 상세-수정</h1>
+   <form th:action="@{ReviewViewUpdate}" method="post">
+      <div>
+      <input id="reviewId" name="reviewId" type="hidden" th:value="${reviewView.reviewId}">
+      <input id="userId" name="userId" type="hidden" th:value="${reviewView.uservo.userId}">
+      <table th:align="center" border="1" th:cellpadding="0"
+         th:cellspacing="0">
+         <tr>
+            <td bgcolor="orange" th:text="제목" width="80"></td>
+            <td><input style="width: 99%;" name="title" type="text" width="100%" th:value="${reviewView.title}"></td>
+         </tr>
+         <tr>
+            <td bgcolor="orange" th:text="작성자"></td>
+            <td th:text="${reviewView.uservo.nickname}"></td>
+         </tr>
+         <tr>
+            <td th:text="이미지"></td>
+            <td height="300">
+               	파일을 업로드할 영역
+				<div class="fileDrop">여기에 그림파일을 드래그해주세요</div> 
+              	업로드된 파일 목록
+				<div style="overflow: scroll" class="uploadedList"></div>
+<!--  				<div style="overflow: scroll" id="reviewImgList" class="beforeUploadedList"> -->
+<!-- 					<th:block th:each="reviewImg:${reviewImgList}"> -->
+<!--                         <img th:src="${reviewImg.img}" width="50%" height="50%"> -->
+<!--                         <span style='cursor: pointer;' th:data-src="${reviewImg.img}">[삭제]</span> -->
+<!--                      <br><br> -->
+<!-- 					</th:block>  -->
+<!--                 </div> -->
+                <div id="imageListArea" class="beforeUploadedList"></div>     
+            </td>
+         </tr>
+         <tr>
+            <td bgcolor="orange" th:text="장점"></td>
+            <td><textarea name="advantages"   th:text="${reviewView.advantages}" rows="10" cols="40"></textarea></td>
+         </tr>
+         <tr>
+            <td bgcolor="orange" th:text="단점"></td>
+            <td><textarea name="disadvantages" th:text="${reviewView.disadvantages}" rows="10" cols="40"></textarea></td>
+         </tr>
+         <tr>
+            <td bgcolor="orange" th:text="등록일"></td>
+            <!-- <td th:text="${reviewView.writeDate}"></td> -->
+            <td th:text="${#dates.format(reviewView.writeDate,'yyyy-MM-dd')}"></td>
+         </tr>
+         
+         <tr>
+			<th colspan="2" align="center"></th>
+			<td><input type="submit" value="수정 완료"></td>
+		</tr>
+            <!-- <td colspan="2" align="right"><a th:href="@{/doReviewViewUpdate(reviewId=(${reviewView.reviewId}))}">리뷰 수정</a><br></td>
+            <td colspan="2" align="right"><a th:href="@{/doReviewList}">리뷰 목록</a><br></td>
+            <td colspan="2" align="right"><a th:href="@{/deleteReviewView(reviewId=(${reviewView.reviewId}))}">리뷰 삭제</a><br></td>
+ -->
+         
+      </table>
+      <!-- <span><a th:href="@{/ReviewViewUpdate(reviewId=(${reviewView.reviewId}))}">수정 완료</a><br></span> -->
+      <span><a th:href="@{/doReviewList}">리뷰 목록</a><br></span>
+      <span><a th:href="@{/deleteReviewView(reviewId=(${reviewView.reviewId}))}">리뷰 삭제</a><br></span>
+      </div>
+    </form> 
+   <br>
+   <div>
+   <th:block th:if="${session['uservo']} != null">
+      <div align="center">
+         <textarea rows="3" cols="60" id="inputContents" placeholder="상대 부모님이 궁금해요? 당신도 키보드 워리어가 될 수 있습니다."></textarea>
+         
+         <a id="addComment" href="#">댓글 등록</a><br>
+         <input id="saveNickname" th:value="${session['uservo'].nickname}">
+         <input id="saveUserId" hidden="true" th:value="${session['uservo'].userId}">
+      </div>
+      </th:block>
+      <br>
+      <div id="commentArea"></div>   
+   </div>
+   
+   <!-- The Modal -->
+    <div id="myModal" class="modal">
+         <!-- Modal content -->
+         <div class="modal-content">
+           <span class="close"></span> 
+              <input type="text" id="modalContent">
+              <input type="hidden" id="modalCommentId">
+              <input type="button" id="modalUpdate" value="수정">
+         </div> 
+    </div>
+
+   <script>
+   $('#addComment').on('click', function(){
+      var reviewId = $('#reviewId').val();
+      var userId = $('#saveUserId').val();
+      var contents = $('#inputContents').val();      
+      var nickname = $('#saveNickname').val();
+      $.ajax({
+         url: '/addComment2',
+         data: {
+            reviewId: reviewId,
+            contents: contents,
+            userId: userId,
+            nickname: nickname
+            },
+            success: function(){
+               showCommentList();
+            },
+            error: function(error){
+               console.log("에러 : " + error);
+            }
+         });
+      });
+   </script>
+   <script>
+   $(document).ready(function(){
+      showCommentList();
+      showImageList();
+  	
+  	function showImageList(){
+		var reviewId = $('#reviewId').val();
+		$.ajax({
+	    	url: "/imageList",
+	        type: "GET",
+	        data: {reviewId: reviewId},
+	        dateType: 'json',
+			success : function(data) {
+	        	console.log('들어갓음 : '+data);
+                var str = "";
+                 //이미지 파일이면 썸네일 이미지 출력
+//                  if (checkImageType(data)) {
+                	for(var i in data){
+                    	str += "<div id='ajaxImgId'>"
+                    	str += "<a href='/displayFile?fileName=" + data[i].img + "'>";
+                    	str += "<img src='/displayFile?fileName=" + data[i].img + "' width='50%' height='50%'></a>";
+                    	str += "<input name='showImgSrc' type='hidden' value="
+							+ data[i].img + ">";
+                    	str += "<span style='cursor: pointer;' data-src="+data[i].img+">[삭제]</span>";
+	                	str += "<br>";
+						str += "<textarea rows='3' cols='40' name='showImgReview' text="+data[i].imgReview+">"+data[i].imgReview+"</textarea>";
+						str += "</textarea>";
+						str += "<br><br>";
+						str += "</div>"             	
+                	 }
+                    //일반 파일이면 다운로드 링크               
+// 				} else {
+//                 	for(var i in data){
+//                     	str = "<div><a href='/displayFile?FileName="
+//                           + data[i].img + "'>" + getOriginalName(data[i].img)
+//                           + "</a>";
+//                 	}
+//                  }
+                 $("#imageListArea div").remove();
+                 $("#imageListArea").html(str);
+              	},
+              	error : function(error){
+	                console.log("에러 : " + error);
+              	}	
+	         
+		});
+	}
+  	
+   });
+   $(document).ready(function(){
+      $(document).on('click', '.deleteComment', function(){
+         var commentId = $(this).next().val();
+         $.ajax({
+            url:'/deleteComment',
+            data:{commentId : commentId},
+            success: function(){
+               showCommentList();
+            },
+            error : function(error){
+               console.log("에러 : " + error);
+            }
+         });
+      });
+   });
+   $(document).ready(function(){
+      $(document).on('click', '.updateComment', function(){
+         var commentId = $(this).next().next().val();
+         var contents = $(this).next().val();
+         $("#modalContent").val(contents);         
+         $("#modalCommentId").val(commentId);         
+         var model = modal.style.display = "block";
+      });
+   });
+   $(document).ready(function(){
+      $(document).on('click', '#modalUpdate', function(){
+         var commentId = $("#modalCommentId").val();
+         var contents = $("#modalContent").val();
+         var reviewId = $('#reviewId').val();
+         var userId = $('#saveUserId').val();
+         var nickname = $('#saveNickname').val();
+         $.ajax({
+            url:'/updateComment',
+            data:{
+               commentId : commentId,
+               contents : contents,
+               reviewId : reviewId,
+               userId : userId,
+               nickname : nickname
+            },
+            success: function(){
+               modal.style.display = "none";
+               showCommentList();
+            },
+            error : function(error){
+               console.log("에러 : " + error);
+            }
+         });
+      });
+   });
+   
+   function showCommentList(){
+      var reviewId = $('#reviewId').val();
+      $.ajax({
+         url: "/commentList",
+         type: "GET",
+         data: {reviewId: reviewId},
+         dateType: 'json',
+         success : function(commentList) {
+            var a = "<table align='center' border='1' cellpadding='0' cellspacing='0'>"
+            a += "<tr><td>번호</td><td>내용</td><td>닉네임</td><td>댓글 수정</td><td>댓글 삭제</td></tr>";
+            for(var i in commentList){
+               a += "<tr>"
+               a += "<td>"+commentList[i].commentId+"</td>";
+               a += "<td>"+commentList[i].contents+"</td>";
+               a += "<td>"+commentList[i].uservo.nickname+"</td>";
+               a += "<td><input type='button' class='updateComment' value='댓글 수정'>";
+               a += "<input type='hidden' value='"+commentList[i].contents+"'><input type='hidden' value='"+commentList[i].commentId+"'></td>";
+               a += "<td><input type='button' class='deleteComment' value='댓글 삭제'>";
+               a += "<input type='hidden' value='"+commentList[i].commentId+"'></td>";
+               a += "</tr>";
+            }
+            a += "</table>";
+            $("#commentArea table").remove();
+            $("#commentArea").html(a);
+         },
+         error:function(request,status,error){
+            alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+         }
+      });         
+   }
+   
+	$(document).ready(function(){
+//	 	업로드 했던 원본 이미지 삭제 메소드
+			$(".beforeUploadedList").on("click", "span", function(event) {
+				alert("업로드 했던 이미지 삭제")
+				var that = $(this); // 여기서 this는 클릭한 span태그
+				
+				alert(that);
+				
+					$.ajax({
+						url : "/uploadedDeleteFile",
+						type : "post",
+						//data:"fileName="+$(this).attr("data-src") = {fileName:$(this).attr("data-src")}
+						//태그 .attr("속성")
+						data : {
+							fileName : $(this).attr("data-src")
+						}, //json방식
+						dataType : "text",
+						success : function(result) {
+							alert("성공");
+							if (result == "modifyDeleted") {
+								//클릭한 span태그가 속한 div제거
+								that.parent("div").remove();
+// 								showImageList();
+							}
+						},
+			            error : function(error){
+			                console.log("에러 : " + error);
+			             }
+				});
+			});
+		});
+   
+	         
+	   
+   
+   
+   
+   </script>
+   <script>
+   // Get the modal
+   var modal = document.getElementById('myModal');
+   
+   // Get the button that opens the modal
+//    var btn = document.getElementById("myBtn");
+   
+   // Get the <span> element that closes the modal
+   var span = document.getElementsByClassName("close")[0];
+   // When the user clicks on the button, open the modal 
+//    btn.onclick = function() {
+//        modal.style.display = "block";
+//    }
+   // When the user clicks on <span> (x), close the modal
+   span.onclick = function() {
+       modal.style.display = "none";
+   }
+   // When the user clicks anywhere outside of the modal, close it
+   window.onclick = function(event) {
+       if (event.target == modal) {
+           modal.style.display = "none";
+       }
+   }
+   
+   </script>
+   <script   src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
+   <script>
+      $(document).ready(
+            function() {
+               $(".fileDrop").on("dragenter dragover", function(event) {
+                  event.preventDefault(); //기본 효과를 막음
+               });
+               //event :JQeury의 이벤트
+               //originalEvent :javascript의 이벤트
+				$(".fileDrop").on("drop", function(event) {
+					event.preventDefault(); //기본효과를 막음
+				alert("jj");
+				//드래그된 파일의 정보
+				var files = event.originalEvent.dataTransfer.files;
+                //첫번째 파일
+				var file = files[0];
+				//콘솔에서 파일 정보 확인
+				console.log(file);
+
+				//ajax로 전달할 폼 객체
+				var formData = new FormData();
+// 				var formDataReviewId = new FormData(); 
+				//폼 객체에 파일 추가, append("변수명", 값)
+               	var reviewId = $('#reviewId').val();	
+				formData.append("file", file);
+// 				formData.append("reviewId", reviewId);
+// 				formDataReviewId.append("reviewId", reviewId);
+				alert(reviewId);
+			$.ajax({
+				type : "post",
+				url : "/modifyUploadAjax/"+reviewId, // 매핑주소
+				data : formData,
+				//prosessData: true=>get방식, false=> post방식
+				/* dataType : "text", */
+				// contentType : true => application/x-www-form-urlencoded,
+				//      false => multipart/form-data
+				processData : false,
+				contentType : false,
+				success : function(data) {
+					console.log('들어갓음 : '+data);
+                    var srt = "";
+                     //이미지 파일이면 썸네일 이미지 출력
+					if (checkImageType(data)) {
+					str = "<div id='ajaxImgId'><a href='/displayFile?fileName="
+                    	+ getImageLink(data) + "'>";
+						str += "<img src='/displayFile?fileName="
+                            + data + "'></a>";
+                        str += "<input name='imgSrc' type='hidden' value="
+							+ data + ">";
+                        //일반 파일이면 다운로드 링크               
+                    } else {
+                       str = "<div><a href='/displayFile?FileName="
+                              + data + "'>" + getOriginalName(data)
+                              + "</a>";
+
+                    }
+                    //삭제버튼
+                    str += "&nbsp;&nbsp;"
+                    str += "<textarea class='reviewImgTextare' rows='6' cols='10' name='imgReview'></textarea>";
+					str += "<span style='cursor: pointer;' data-src="+data+">[삭제]</span></div>";
+					$(".uploadedList").append(str);
+//                      <span style='cursor: pointer;' data-src="+data+">[삭제]</span>
+				}
+				
+			});
+
+		});
+
+      $(".uploadedList").on("click", "span", function(event) {
+		alert("이미지 삭제")
+		var that = $(this); // 여시거 this는 클릭한 span태그
+		/* $("#ajaxImgId").find('img').each(function(){
+		var ajaxImgId = $(this).attr('src');
+		alert(ajaxImgId);
+		}); */
+		alert(that);
+			
+		$.ajax({
+            url : "/deleteFile",
+            type : "post",
+            //data:"fileName="+$(this).attr("data-src") = {fileName:$(this).attr("data-src")}
+            //태그 .attr("속성")
+            data : {
+               fileName : $(this).attr("data-src"),
+//                ajaxImgId : ajaxImgId
+            }, //json방식
+            dataType : "text",
+            success : function(result) {
+               if (result == "deleted") {
+                  //클릭한 span태그가 속한 div제거
+                  that.parent("div").remove();
+               }
+            }
+
+         });
+
+      });
+
+	function getOriginalName(fileName) {
+		//이미지 파일이면
+		if (checkImageType(fileName)) {
+		return; //함수 종료         
+		}
+		//uuid를 제외한 원래 파일 이름을 리턴
+		var idx = fileName.insexOf("_") + 1;
+		return fileName.substr(idx);
+	}
+
+	function getImageLink(fileName) {
+	//이미지 파일이 아니면
+    if (!checkImageType(fileName)) {
+    	return; //함수 종료
+		}
+		//이미지 파일이면 (썸네일이 아닌 원본 이미지를 가져오기 위해)
+		//썸네일 이미지 파일명 - 파일경로+파일명
+		var front = fileName.substr(0, 12); //년 원 일 경로 추출
+		var end = fileName.substr(14); // 년 월 일 뎡로와 s_를 제거한 원본 파일명을 추출
+        console.log(front); // 2019/09/01
+        console.log(end);
+        //원본 파일명
+        return front + end; //디렉토리를 포함한 원본 파일명을 리턴
+
+      }
+
+	function checkImageType(fileName) {
+        // i: ignore case(대소문자 무관)
+        var pattern = /jpg|gif|png|jpeg/i; //정규식 표현
+        return fileName.match(pattern); //규칙이 맞으면  true      
+		}
+	});
+   </script>
+</body>
+</html>

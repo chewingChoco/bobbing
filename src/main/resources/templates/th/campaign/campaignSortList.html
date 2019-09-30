@@ -1,0 +1,10 @@
+<ul class="campaignUl" th:each="campaign:${campaignListWithImg}">
+	<li class="campaignLi">
+		<img class="campaignProfileImg" th:src="${campaign[6]}"> 
+		<span class="campaignProfileName" th:text="${campaign[7]}"></span> 
+		<span class= "campaignEndDate" th:text="|~ ${#dates.format(campaign[2], 'yyyy-MM-dd')}|"></span><br>
+		<a th:href="@{getCampaign(campaignId=${campaign[0]})}">
+		<img class="campaignThumImg" th:src="${campaign[5]}"></a><br>			
+		<a class="campaignThumTitle" th:href="@{getCampaign(campaignId=${campaign[0]})}" th:text="${campaign[1]}"> </a>
+	</li>						
+</ul>	

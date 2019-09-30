@@ -1,0 +1,256 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>유저 마이 페이지</title>
+<!-- <link rel="stylesheet" href="/common/css/styles.css" th:href="@{/common/css/styles.css}" type="text/css"> -->
+<link rel="stylesheet" href="/common/css/userMyPage.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="/common/js/index.js"></script>
+<style>
+    /*탭 메뉴(버튼 관련 부분)*/
+    .tablink {
+        background-color: #ffc4f5;
+        color: white;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        font-size: 17px;
+        width: 20%;
+        border-bottom: thick;
+        border-bottom-color: black;
+    }
+   
+   
+   .middle{overflow:hidden;}
+   .middle .leftSection{float:left;width: 30%;}
+   .middle .rightSection{float: left; width: 68%;};
+  .middle .rightSection .divider{overflow:hidden};
+  .middle .rightSection .divider .list-style03{float:left};
+  
+  .middle .rightSection .divider .list-style03 .eachList{width: 20%};
+   
+  .list-style04-user li:nth-child(0){margin-top: 100px;}
+  .work {margin: 100px 0 0 100px;}
+  .work li .name span{font-weight:normal;}
+ 
+</style>
+</head>
+<body>
+
+
+<div id="wrap" class="main">
+	<div th:replace="/include/header.html :: header"></div>
+</div><br><br><br><br><br><br><br><br>
+	<div class="middle">
+		<div class="bannerWrap" >
+			<div class="cont-area">
+				<div class="leftSection" >
+					<ul class="list-style04-user" id="banner" >
+						<div class="work">
+							<li th:each="uservo:${uservo}" > 
+								<img th:src="${uservo.profileImg}" style="width:200px;height:200px;"> <span class="name">
+									<input type="hidden" id="followingYou"
+									th:value="${uservo.nickname}"> 
+									<span th:text="${uservo.nickname}"></span><br> <span>팔로워</span>&nbsp;<span
+									th:text="${uservo.followingCount}"> </span><span>&nbsp;| &nbsp;리뷰수 &nbsp;</span><span
+									th:text="${uservo.postCount}"> </span>
+								</span>
+								<span class="emptyspace"> 
+									<input type="hidden" id="followingYou" th:value="${uservo.nickname}">
+									<input type="hidden" id="followerMe" th:value="${username}">
+									<span th:if="${#lists.isEmpty(sameuser)}">
+										<span th:if="${#lists.isEmpty(followCheck)}"> <span
+												class="followbtn btn02">팔로우</span>
+										</span> 
+										<span th:if="!${#lists.isEmpty(followCheck)}"> <span
+												class="followbtn btn01">팔로잉</span>
+										</span>
+									</span>
+								</span>
+							</li>
+						</div>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="rightSection">
+			<span>
+			 <button class="tablink" onclick="openPage('reviewList', this)" id="defaultOpen">작성글</button>
+		     <button class="tablink" onclick="openPage('scrapList', this)">스크랩</button>
+		     <button class="tablink" onclick="openPage('followList', this)">팔로워</button>
+		     <button class="tablink" onclick="openPage('followingList', this)">팔로잉</button>   
+		     <button class="tablink" onclick="openPage('puttingList', this)">담아두기</button>	
+			</span>
+			<div class="divider">
+				<div id="reviewList" class="tabcontent">
+					<div class="cont-area info" id="list1">
+						<ul class="list-style03">
+						
+							<li th:each="newestreview:${review}" class="eachList">
+								<div class="cont-txt">
+									<p class="photo">
+											<img th:src='${newestreview.reviewRegistrationvo.reviewImgList[0].img}'></img>
+									</p>
+									
+									<ul class="info">
+										<li><span
+											th:text="${newestreview.reviewRegistrationvo.reviewPlace}"></span>
+											|</li>
+										<input type="hidden" th:value="${newestreview.reviewRegistrationvo.reviewId}" id="get">
+										<li><span
+											th:text="${newestreview.reviewRegistrationvo.title}"></span></li>
+										<li><span
+											th:each="check:${newestreview.reviewRegistrationvo.uservo}">
+												<img th:src="${check.profileImg}" style="width:25px;height:25px;"/> <input type="hidden"
+												id="reviewUserId" th:value="${check.userId}"> <span
+												th:text="${check.nickname}"></span>
+										</span></li>
+										<!-- 								</p><li th:text="${newestreview[0].reviewRegistrationvo.reviewPlace}"></li> -->
+									</ul>
+									<span th:if="${#lists.isEmpty(newestreview.scrapvo)}"> <span
+										class="button best02" id="scrapButton"> <input
+											type="hidden" id="followerMe" th:value="${username}">
+									</span>
+									</span> <span th:if="!${#lists.isEmpty(newestreview.scrapvo)}"> <span
+										class="button best01" id="scrapButton"> <input
+											type="hidden" id="followerMe" th:value="${username}">
+									</span>
+									</span>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>     
+				
+				                     
+				<div id="scrapList" class="tabcontent">
+					<div class="cont-area info" id="list1">
+						<ul class="list-style03">
+						
+							<li th:each="newestreview:${scrap}">
+								<div class="cont-txt">
+									<p class="photo">
+											<img th:src='${newestreview.reviewRegistrationvo.reviewImgList[0].img}'></img>
+									</p>
+									<span th:if="${#lists.isEmpty(newestreview.scrapvo)}"> <span
+										class="button best02" id="scrapButton"> <input
+											type="hidden" id="followerMe" th:value="${username}">
+									</span>
+									</span> <span th:if="!${#lists.isEmpty(newestreview.scrapvo)}"> <span
+										class="button best01" id="scrapButton"> <input
+											type="hidden" id="followerMe" th:value="${username}">
+									</span>
+									</span>
+									<ul class="info">
+										<li><span
+											th:text="${newestreview.reviewRegistrationvo.reviewPlace}"></span>
+											|</li>
+										<input type="hidden" th:value="${newestreview.reviewRegistrationvo.reviewId}" id="get">
+										<li><span
+											th:text="${newestreview.reviewRegistrationvo.title}"></span></li>
+										<li><span th:each="check:${newestreview.reviewRegistrationvo.uservo}">
+												<img th:src="${check.profileImg}" style="width:25px;height:25px;"/> 
+												<input type="hidden"id="reviewUserId" th:value="${check.userId}">
+												 <span th:text="${check.nickname}"></span>
+											</span>
+										</li>
+										<!-- 								</p><li th:text="${newestreview[0].reviewRegistrationvo.reviewPlace}"></li> -->
+									</ul>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div id="followList" class="tabcontent">
+				<div class="cont-area">
+					<ul class="list-style04-user" id="banner">
+						<li th:each=" followerUser : ${followerUser}">
+							<a th:href="@{/getUserMyPage(nickname=${followerUser.uservo.nickname}, followerMe=${username})}">
+							<img th:src="${followerUser.uservo.profileImg}" style="width:165px;height:165px;">
+							<span th:text="${followerUser.uservo.nickname}"></span>
+							</a>
+							<span class="emptyspace">
+								<input type="hidden" id="followingYou" th:value="${followerUser.uservo.nickname}">
+								<input type="hidden" id="followerMe" th:value="${nickname}">
+								<span th:if="${#lists.isEmpty(followerUser.followvo)}">
+									<span class="followbtn btn02">팔로우</span>
+								</span>
+								<span th:if="!${#lists.isEmpty(followerUser.followvo)}">
+									<span class="followbtn btn01">팔로잉</span>
+								</span>
+							</span>
+						</li>	
+						
+						
+					</ul>
+				</div>
+				</div>
+			    <div id="followingList" class="tabcontent">
+			    <div class="cont-area">
+					<ul class="list-style04-user" id="banner">
+						<li th:each=" followerUser : ${followingUser}">
+							<a th:href="@{/getUserMyPage(nickname=${followerUser.uservo.nickname}, followerMe=${username})}">
+							<img th:src="${followerUser.uservo.profileImg}" style="width:165px;height:165px;">
+							<span th:text="${followerUser.uservo.nickname}"></span>
+							</a>
+							<span class="emptyspace">
+								<input type="hidden" id="followingYou" th:value="${followerUser.uservo.nickname}">
+								<input type="hidden" id="followerMe" th:value="${nickname}">
+								<span th:if="${#lists.isEmpty(followerUser.followvo)}">
+									<span class="followbtn btn02">팔로우</span>
+								</span>
+								<span th:if="!${#lists.isEmpty(followerUser.followvo)}">
+									<span class="followbtn btn01">팔로잉</span>
+								</span>
+							</span>
+						</li>	
+						
+						
+					</ul>
+				</div>
+			    </div>   
+				<div id="puttingList" class="tabcontent">
+					<div class="cont-area">
+						<ul class="list-style04-restaurant">
+							<li th:each="advvo:${advertisement}">
+								<img th:src="${advvo.advertisementvo.profileImg}" style="width:165px;height:165px;">
+								<span th:text="${advvo.advertisementvo.advertisementname}" class="name"></span>
+								<span class="emptyspace2">
+									<input type="hidden" id="followerMe" th:value="${username}">
+									<input type="hidden" id="followingYou" th:value="${advvo.advertisementvo.advertisementname}">
+									<span th:if="${#lists.isEmpty(advvo.putvo)}">
+										<span class="followbtn btn02">담아두기</span>
+									</span>
+									<span th:if="!${#lists.isEmpty(advvo.putvo)}">
+										<span class="followbtn btn01">담기완료</span>
+									</span>
+								</span>
+							</li>
+							
+						</ul>
+					</div>
+				 </div>   
+			</div>
+		</div>
+	</div>
+ <script>
+            function openPage(pageName,elmnt,color) {
+              var i, tabcontent, tablinks;
+              tabcontent = document.getElementsByClassName("tabcontent");
+              for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+              }
+              tablinks = document.getElementsByClassName("tablink");
+              for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].style.backgroundColor = "";
+              }
+              document.getElementById(pageName).style.display = "block";
+              elmnt.style.backgroundColor = color;
+            }            
+            // 기본 열림
+            document.getElementById("defaultOpen").click();
+    </script>
+</body>
+</html>

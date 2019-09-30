@@ -1,0 +1,90 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>광고주 마이 페이지</title>
+<link rel="stylesheet" href="/common/css/styles.css" th:href="@{/common/css/styles.css}" type="text/css">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- Alertyfy.js -->
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.4/build/alertify.min.js"></script>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.4/build/css/alertify.min.css"/>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.4/build/css/themes/default.min.css"/>
+
+    <!--  chart.js  -->
+    <script src = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.js"></script> 
+
+    <style>
+    /*탭 메뉴(버튼 관련 부분)*/
+    .tablink {
+        background-color: #ffc4f5;
+        color: white;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        font-size: 17px;
+        width: 19%;
+    }
+    
+    .middle{overflow:hidden; width: 100%}
+    .middle .bannerWrap{float:left;width:25%}
+    .middle .rightsection{float: left; width: 65%}
+    </style>
+</head>
+<body>
+
+
+<div id="wrap" class="main">
+	<div th:replace="/include/header.html :: header"></div>
+	<br><br><br><br><br><br><br><br><br>
+	<div class="middle">
+		<div class="bannerWrap" >
+			<ul>
+				<img th:src="${advertisement.profileImg}">
+			</ul>
+		</div>
+
+	
+		<div class="rightSection">
+			<span style="margin-top: 6%; position: absolute; width: 100%;">
+			 <button class="tablink" onclick="openPage('campaignList', this)" id="defaultOpen">캠페인</button>
+		     <button class="tablink" onclick="openPage('reviewedList', this)">리뷰 보기</button>
+		     <button class="tablink" onclick="openPage('evaluatedList', this)">평가 보기</button>
+		     <button class="tablink" onclick="openPage('puttedList', this)">담아둔 유저</button>  
+		     </span>
+			
+		
+			<div id="campaignList" class="tabcontent">캠페인 리스트</div>                          
+				<div id="reviewedList" class="tabcontent">리뷰 당한 리스트</div>
+				<div id="evaluatedList" class="tabcontent">평가 보기</div>
+			    <div id="puttedList" class="tabcontent">담아둔 유저 보기</div>
+				
+	 
+	 	</div>
+ 		
+ 
+ 
+	 </div>
+ 
+</div>
+ <script>
+            function openPage(pageName,elmnt,color) {
+              var i, tabcontent, tablinks;
+              tabcontent = document.getElementsByClassName("tabcontent");
+              for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+              }
+              tablinks = document.getElementsByClassName("tablink");
+              for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].style.backgroundColor = "";
+              }
+              document.getElementById(pageName).style.display = "block";
+              elmnt.style.backgroundColor = color;
+            }            
+            // 기본 열림
+            document.getElementById("defaultOpen").click();
+    </script>
+</body>
+</html>
